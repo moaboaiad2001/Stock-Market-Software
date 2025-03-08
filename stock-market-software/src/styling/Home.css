@@ -1,0 +1,120 @@
+/* General Styling */
+html {
+    background-color: black;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1, h2 {
+    color: white;
+    margin: 0;
+    padding: 10px 0;
+  }
+  
+  .home-page {
+    padding: 16px 32px;
+  }
+  
+  /* Performance Indicators (Positive/Negative) */
+  .performance-positive {
+    font-weight: bold;
+    color: rgba(0, 255, 0); /* Green */
+  }
+  
+  .performance-negative {
+    font-weight: bold;
+    color: rgb(255, 0, 0); /* Red */
+  }
+  
+  /* Timeframe Buttons - Smaller & No Background */
+  .timeframe-buttons {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    margin-bottom: 20px; /* Add spacing below the buttons */
+  }
+
+  .buttons-container {
+    margin-left: 90px;
+  }
+  
+  .timeframe-buttons button {
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 5px 8px;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .timeframe-buttons button.active {
+    color: #4caf50; /* Green */
+    border-bottom: 2px solid #4caf50;
+  }
+  
+  .timeframe-buttons button:hover {
+    color: #1e88e5; /* Blue */
+  }
+  
+/* PNL Section - Align Left & Limit Width */
+.pnl-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align text to the left */
+    width: 66%; /* Take up 66% of the page width */
+    margin-left: 0; /* Ensure no centering is happening */
+    margin-right: 0; /* Ensure no extra space on the right */
+    padding: 10px; /* Add some space inside the pnl-section */
+    box-sizing: border-box; /* Ensure padding does not affect width */
+  }
+  
+  /* Wrapper around chart to enforce width */
+  .chart-wrapper {
+    width: 100%; /* Inherit width from parent pnl-section */
+    padding: 0 0px; /* Add some padding to avoid touching edges */
+    box-sizing: border-box; /* Ensure padding does not affect width */
+  }
+  
+  /* PNL Value Styling */
+  .pnl-value {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: white; /* Ensures the PNL value text is white */
+  }
+  
+  /* Align PNL Section Left */
+  .chart-container {
+    display: flex;
+    justify-content: flex-start; /* Align chart to the left */
+    width: 100%;
+  }
+  
+  /* Additional Alignment Adjustments */
+  .home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Ensure everything is aligned to the left */
+    padding: 16px 32px;
+  }
+  
+  /* Ensure time-frame buttons and PNL section do not overlap */
+  .timeframe-buttons {
+    margin-bottom: 20px; /* Space between buttons and PNL section */
+  }
+  
+
+  /* Watchlist Section */
+  .watchlist-container {
+    background-color: white;
+    border: blue;
+  }
+
+  .watchlist-title {
+    color: black;
+  }
+
+  .pnl-and-watchlist {
+    display: flex !important;
+    justify-content: flex-end !important;
+  }

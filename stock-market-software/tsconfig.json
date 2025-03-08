@@ -1,0 +1,16 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+
+  "compilerOptions": {
+    "jsx": "react-jsx",  
+    "lib": ["dom", "es2015"],
+    "moduleResolution": "node",
+    "types": ["react", "react-dom"],
+    "skipLibCheck": true
+  }
+  
+}
