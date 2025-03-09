@@ -1,44 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { NetworkManager } from "./NetworkManager";
 
 interface StockOption {
   value: string;
   label: string;
-  name: string;
   price: number;
-  percentChange: number;
+  change: number;
 }
 
 const Navbar: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<StockOption | null>(
-    null
-  );
+  const [searchTerm, setSearchTerm] = useState("");
   const [stockOptions, setStockOptions] = useState<StockOption[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const networkManager = new NetworkManager();
 
-  const handleInputChange = async (inputValue: string) => {
-    if (!inputValue) {
+  useEffect(() => {
+    if (!searchTerm) {
       setStockOptions([]);
       return;
     }
-    setIsLoading(true);
-    try {
-      const results = await networkManager.fetchStockSymbols(inputValue);
-      const formattedOptions = results.map((stock) => ({
-        value: stock.symbol,
-        label: `${stock.symbol} - ${stock.name} ($${stock.price.toFixed(2)})`,
-        name: stock.name,
-        price: stock.price,
-        percentChange: stock.percentChange,
-      }));
-      setStockOptions(formattedOptions);
-    } catch (error) {
-      console.error("Error fetching stocks:", error);
-    }
-    setIsLoading(false);
+
+    const fetchStocks = async () => {
+      setIsLoading(true);
+      try {
+        const stocks = await networkManager.fetchStockSymbols(searchTerm);
+        setStockOptions(
+          stocks.map((stock) => ({
+            value: stock.symbol,
+            label: `${stock.symbol} - ${stock.name}`,
+            price: stock.price,
+            change: stock.percentChange,
+          }))
+        );
+      } catch (error) {
+        console.error("Error fetching stock data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const timeoutId = setTimeout(fetchStocks, 500); // Add a delay to prevent excessive API calls
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm]);
+
+  const handleInputChange = (inputValue: string) => {
+    setSearchTerm(inputValue);
   };
+
+  const formatOptionLabel = (stock: StockOption) => (
+    <div className="stock-option">
+      <div className="stock-details">
+        <span>{stock.label}</span>
+        <span className={stock.change >= 0 ? "positive" : "negative"}>
+          ${stock.price.toFixed(2)} ({stock.change.toFixed(2)}%)
+        </span>
+      </div>
+    </div>
+  );
 
   return (
     <nav className="navbar">
@@ -47,12 +67,12 @@ const Navbar: React.FC = () => {
         <Select
           className="navbar-search search-dropdown"
           styles={{ control: (provided) => ({ ...provided, width: "600px" }) }}
-          value={selectedOption}
-          onChange={setSelectedOption}
-          onInputChange={handleInputChange}
           options={stockOptions}
+          onInputChange={handleInputChange}
+          formatOptionLabel={formatOptionLabel}
           placeholder="Search Stocks"
           isLoading={isLoading}
+          isClearable
         />
       </div>
       <div className="navbar-links">
