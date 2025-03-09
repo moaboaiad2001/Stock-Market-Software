@@ -10,7 +10,10 @@
     "lib": ["dom", "es2015"],
     "moduleResolution": "node",
     "types": ["react", "react-dom"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "react": ["./node_modules/@types/react"]
+    }
   }
   
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   LineChart,
   Line,
@@ -9,9 +9,11 @@ import {
 } from "recharts";
 import "../styling/Home.css";
 import Investment from "./Investment";
-import Watchlist from "./Watchlist";
+import { NetworkManager } from "./NetworkManager"; // Assuming NetworkManager is imported correctly
 
 const Home: React.FC = () => {
+  const [watchlist, setWatchlist] = useState<any[]>([]); // Watchlist data
+
   const investment = new Investment(
     1000, // Initial amount (YTD)
     1100, // 1-day ago amount
@@ -22,7 +24,6 @@ const Home: React.FC = () => {
     1150 // Current amount
   );
 
-  // Available time periods
   const timePeriods = [
     { label: "1 Day", key: "1D" },
     { label: "1 Week", key: "1W" },
@@ -32,15 +33,21 @@ const Home: React.FC = () => {
     { label: "Year to Date", key: "YTD" },
   ];
 
-  // State to track selected timeframe
   const [selectedPeriod, setSelectedPeriod] = useState<
     "1D" | "1W" | "1M" | "3M" | "1Y" | "YTD"
   >("1D");
-
-  // State to toggle between percent and amount increase
   const [showPercent, setShowPercent] = useState(true);
 
-  // Generate dynamic X-axis data based on selected period
+  // Fetch watchlist data on component mount
+  useEffect(() => {
+    const fetchWatchlist = async () => {
+      const networkManager = new NetworkManager();
+      const watchlistData = await networkManager.fetchStockSymbols("AAPL"); // Example query
+      setWatchlist(watchlistData); // Set the fetched data to state
+    };
+    fetchWatchlist();
+  }, []); // Empty dependency array ensures it runs only once on mount
+
   const getChartData = () => {
     switch (selectedPeriod) {
       case "1D":
@@ -87,7 +94,7 @@ const Home: React.FC = () => {
           { time: "Oct", value: investment.getIncrease("YTD") },
         ];
       default:
-        return [];
+        return []; // Make sure to return an empty array if no case matches
     }
   };
 
@@ -96,19 +103,15 @@ const Home: React.FC = () => {
       <h1>Portfolio</h1>
       <h2>${investment.getCurrentAmount().toFixed(2)}</h2>
 
-      {/* Display either percent increase or amount increase based on state */}
       <h3 className={investment.getClassName(selectedPeriod)}>
-        ( {investment.getSymbol(selectedPeriod)}{" "}
+        ({investment.getSymbol(selectedPeriod)}{" "}
         {`${investment.getPercentIncrease(selectedPeriod).toFixed(2)}% `}){" "}
         {`$${investment.getIncrease(selectedPeriod).toFixed(2)}`}
       </h3>
 
       <div className="pnl-and-watchlist">
-        {/* PNL Chart */}
         <div className="pnl-section">
           <div className="chart-wrapper">
-            {" "}
-            {/* New wrapper */}
             <div className="chart-container">
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={getChartData()}>
@@ -131,19 +134,21 @@ const Home: React.FC = () => {
             </div>
           </div>
         </div>
+
         <div className="watchlist-container">
           <h1 className="watchlist-title">Watchlist</h1>
           <ul id="stockList">
-            <li>AAPL - Apple Inc. - $180.00</li>
-            <li>MSFT - Microsoft Corp. - $320.50</li>
-            <li>AMZN - Amazon.com Inc. - $115.25</li>
+            {watchlist.map((stock, index) => (
+              <li key={index}>
+                {stock.symbol} - {stock.name} - ${stock.price} (
+                {stock.percentChange}%)
+              </li>
+            ))}
           </ul>
         </div>
       </div>
 
-      {/* Toggle Buttons */}
       <div className="buttons-container">
-        {/* Timeframe Selection */}
         <div className="timeframe-buttons">
           {timePeriods.map(({ label, key }) => (
             <button

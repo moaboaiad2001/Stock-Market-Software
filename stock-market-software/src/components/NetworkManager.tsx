@@ -54,4 +54,27 @@ export class NetworkManager {
       return { price: 0 };
     }
   }
+
+  async addStockToList(
+    symbol: string,
+    stockList: {
+      symbol: string;
+      name: string;
+      price: number;
+      percentChange: number;
+    }[]
+  ): Promise<
+    { symbol: string; name: string; price: number; percentChange: number }[]
+  > {
+    const stockData = await this.getStockData(symbol);
+    const stockInfo = {
+      symbol,
+      name: symbol, // You can adjust this to fetch the full name if needed
+      price: stockData.price,
+      percentChange: stockData.percentChange || 0,
+    };
+
+    // Add the stock to the list
+    return [...stockList, stockInfo];
+  }
 }
