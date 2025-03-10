@@ -5,6 +5,7 @@ interface News {
   symbol: string;
   title: string;
   news: string;
+  url: string;
 }
 
 const News = () => {
@@ -13,7 +14,8 @@ const News = () => {
   const networkManager = new NetworkManager();
 
   const fetchNews = async () => {
-    const newsData = await networkManager.getStockNews("");
+    console.log("Fetching news with empty ticker...");
+    const newsData = await networkManager.getStockNews(""); // Empty string should work
     setNewslist(newsData);
   };
 
@@ -26,19 +28,34 @@ const News = () => {
 
   return (
     <div className="news-container">
-      <h1 className="news-title">News</h1>
-      <ul id="newslist">
+      <h1 className="news-title">Latest News</h1>
+      <div className="news-list">
         {displayedNews.map((news, index) => (
-          <li key={index}>
-            <strong>
-              {news.symbol} - {news.title}
-            </strong>
-            <p>{news.news}</p>
-          </li>
+          <div className="news-article" key={index}>
+            <h2 className="news-article-title">
+              <a href={news.url} target="_blank" rel="noopener noreferrer">
+                {news.title}
+              </a>
+            </h2>
+            <p className="news-article-symbol">
+              <strong>{news.symbol}</strong>
+            </p>
+            <p className="news-article-body">{news.news}</p>
+            <a
+              href={news.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="read-more"
+            >
+              Read full article
+            </a>
+          </div>
         ))}
-      </ul>
+      </div>
       {displayedNews.length < newslist.length && (
-        <button onClick={() => setPage(page + 1)}>Load More</button>
+        <button onClick={() => setPage(page + 1)} className="load-more-button">
+          Load More
+        </button>
       )}
     </div>
   );

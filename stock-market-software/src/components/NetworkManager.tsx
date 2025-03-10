@@ -1,6 +1,6 @@
 export class NetworkManager {
   private finnhubApiKey = "csjs5u9r01qvrnd73fdgcsjs5u9r01qvrnd73fe0";
-  private yahooFinanceApiKey = "Fb7LNj6K1zBvnardW_HTHkXkJM0rLBLs";
+  private yahooFinanceApiKey = "T4YMtQfhAo7AHgA7z1uH06RhBeW5S8pI";
 
   constructor() {}
 
@@ -11,10 +11,18 @@ export class NetworkManager {
   > {
     if (!query) return [];
 
-    const url = `https://api.polygon.io/v3/reference/tickers?search=${query}&active=true&limit=20&apiKey=${this.yahooFinanceApiKey}`;
+    const newsURL = `https://api.polygon.io/v2/reference/news?ticker=${ticker ?? "AAPL"}&limit=10&apiKey=${this.yahooFinanceApiKey}`;
 
     try {
-      const response = await fetch(url);
+      const response = await fetch(newsURL, {
+        method: "GET",
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      });
+      
       const data = await response.json();
       if (data?.results) {
         const stockPromises = data.results.map(async (ticker: any) => {
@@ -78,38 +86,39 @@ export class NetworkManager {
     return [...stockList, stockInfo];
   }
 
-  async getStockNews(
-    query: string
-  ): Promise<{ symbol: string; title: string; news: string }[]> {
-    if (!query) return [];
-
-    const newsURL = `https://api.polygon.io/v2/reference/news?limit=10&apiKey=Fb7LNj6K1zBvnardW_HTHkXkJM0rLBLs`;
-
+  async getStockNews(ticker: string): Promise<{ symbol: string; title: string; news: string; url: string }[]> {
+    console.log(`getStockNews called with ticker: '${ticker}'`);
+  
+    const baseURL = "https://api.polygon.io/v2/reference/news";
+    const newsURL = `${baseURL}?${ticker ? `ticker=${ticker}&` : ""}limit=10&apiKey=${this.yahooFinanceApiKey}`;
+  
     try {
-      const response = await fetch(newsURL, {
-        headers: {
-          "Cache-Control": "no-cache", // Prevent caching
-          "If-None-Match": "no-match",
-        },
-      });
-      const newsData: { results?: { title?: string; description?: string }[] } =
-        await response.json();
-
-      if (Array.isArray(newsData.results)) {
-        console.log(newsData);
-        return newsData.results.map(
-          (news: { title?: string; description?: string }) => ({
-            symbol: query,
-            title: news.title || "No Title",
-            news: news.description || "No News Available",
-          })
-        );
+      console.log(`Fetching news from: ${newsURL}`);
+  
+      // Remove the CORS-related headers
+      const response = await fetch(newsURL);
+  
+      if (!response.ok) {
+        console.error(`Error fetching news: ${response.status} - ${response.statusText}`);
+        return [];
       }
-
-      return [];
+  
+      const newsData = await response.json();
+  
+      if (!newsData.results || !Array.isArray(newsData.results)) {
+        console.warn("getStockNews: No valid news data received.");
+        return [];
+      }
+  
+      return newsData.results.map((news) => ({
+        symbol: news.tickers?.join(", ") || "General News",
+        title: news.title || "No Title",
+        news: news.description || "No News Available",
+        url: news.article_url || "#",
+      }));
     } catch (error) {
-      console.error(`Error fetching news for ${query}:`, error);
+      console.error("Error in getStockNews:", error);
       return [];
     }
-  }
-}
+  }  
+}  

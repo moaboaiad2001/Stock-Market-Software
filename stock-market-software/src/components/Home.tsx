@@ -43,7 +43,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const fetchWatchlist = async () => {
       const networkManager = new NetworkManager();
-      const watchlistData = await networkManager.fetchStockSymbols("AAPL"); // Example query
+      const watchlistData = await networkManager.fetchStockSymbols(""); // Example query
       setWatchlist(watchlistData); // Set the fetched data to state
     };
     fetchWatchlist();
