@@ -10,6 +10,7 @@ import {
 import "../styling/Home.css";
 import Investment from "./Investment";
 import { NetworkManager } from "./NetworkManager"; // Assuming NetworkManager is imported correctly
+import News from "./News";
 
 const Home: React.FC = () => {
   const [watchlist, setWatchlist] = useState<any[]>([]); // Watchlist data
@@ -134,18 +135,7 @@ const Home: React.FC = () => {
             </div>
           </div>
         </div>
-
-        <div className="watchlist-container">
-          <h1 className="watchlist-title">Watchlist</h1>
-          <ul id="stockList">
-            {watchlist.map((stock, index) => (
-              <li key={index}>
-                {stock.symbol} - {stock.name} - ${stock.price} (
-                {stock.percentChange}%)
-              </li>
-            ))}
-          </ul>
-        </div>
+        <News />
       </div>
 
       <div className="buttons-container">
@@ -164,6 +154,17 @@ const Home: React.FC = () => {
             </button>
           ))}
         </div>
+      </div>
+      <div className="watchlist-container">
+        <h1 className="watchlist-title">Watchlist</h1>
+        <ul id="stockList">
+          {watchlist.map((stock, index) => (
+            <li key={index}>
+              {stock.symbol} - {stock.name} - ${stock.price} (
+              {stock.percentChange}%)
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

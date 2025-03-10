@@ -34,7 +34,7 @@ h1, h2 {
 
 .buttons-container {
   margin-left: 40px;
-  margin-top: -80px
+  margin-top: auto
 }
 
 .timeframe-buttons button {
@@ -103,7 +103,7 @@ h1, h2 {
 /* Watchlist Section - Right Side (20%) */
 .watchlist-container {
   flex: 1;
-  margin-top: -150px;
+  margin-top: 50px;
   min-height: 500px; /* Adjust based on content */
   background-color: #1e1e1e;
   padding: 20px;
@@ -142,6 +142,53 @@ h1, h2 {
 }
 
 #stockList li:hover {
+  background-color: #4caf50;
+  color: black;
+}
+
+/* News Section */
+.news-container {
+  flex: 1;
+  margin-top: -150px;
+  min-height: 400px;
+  max-height: 400px !important;
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+  align-self: flex-start; /* Ensures alignment */
+  overflow: auto; /* Prevents stretching */
+}
+
+
+.news-title {
+  color: white;
+  font-size: 20px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #4caf50;
+  padding-bottom: 5px;
+}
+
+#newsList {
+  list-style: none;
+  padding: 0;
+  min-width: 100% !important;
+}
+
+#newsList li {
+  background-color: #2a2a2a;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items:flex-start;
+  font-size: 16px;
+  transition: background 0.3s ease-in-out;
+}
+
+#newsList li:hover {
   background-color: #4caf50;
   color: black;
 }

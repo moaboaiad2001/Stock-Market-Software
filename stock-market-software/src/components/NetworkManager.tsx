@@ -1,6 +1,6 @@
 export class NetworkManager {
   private finnhubApiKey = "csjs5u9r01qvrnd73fdgcsjs5u9r01qvrnd73fe0";
-  private yahooFinanceApiKey = "T4YMtQfhAo7AHgA7z1uH06RhBeW5S8pI";
+  private yahooFinanceApiKey = "Fb7LNj6K1zBvnardW_HTHkXkJM0rLBLs";
 
   constructor() {}
 
@@ -76,5 +76,40 @@ export class NetworkManager {
 
     // Add the stock to the list
     return [...stockList, stockInfo];
+  }
+
+  async getStockNews(
+    query: string
+  ): Promise<{ symbol: string; title: string; news: string }[]> {
+    if (!query) return [];
+
+    const newsURL = `https://api.polygon.io/v2/reference/news?limit=10&apiKey=Fb7LNj6K1zBvnardW_HTHkXkJM0rLBLs`;
+
+    try {
+      const response = await fetch(newsURL, {
+        headers: {
+          "Cache-Control": "no-cache", // Prevent caching
+          "If-None-Match": "no-match",
+        },
+      });
+      const newsData: { results?: { title?: string; description?: string }[] } =
+        await response.json();
+
+      if (Array.isArray(newsData.results)) {
+        console.log(newsData);
+        return newsData.results.map(
+          (news: { title?: string; description?: string }) => ({
+            symbol: query,
+            title: news.title || "No Title",
+            news: news.description || "No News Available",
+          })
+        );
+      }
+
+      return [];
+    } catch (error) {
+      console.error(`Error fetching news for ${query}:`, error);
+      return [];
+    }
   }
 }
