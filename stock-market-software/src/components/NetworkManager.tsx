@@ -11,18 +11,10 @@ export class NetworkManager {
   > {
     if (!query) return [];
 
-    const newsURL = `https://api.polygon.io/v2/reference/news?ticker=${ticker ?? "AAPL"}&limit=10&apiKey=${this.yahooFinanceApiKey}`;
+    const url = `https://api.polygon.io/v3/reference/tickers?search=${query}&active=true&limit=20&apiKey=${this.yahooFinanceApiKey}`;
 
     try {
-      const response = await fetch(newsURL, {
-        method: "GET",
-        headers: {
-          "Cache-Control": "no-cache, no-store, must-revalidate",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
-      });
-      
+      const response = await fetch(url);
       const data = await response.json();
       if (data?.results) {
         const stockPromises = data.results.map(async (ticker: any) => {
