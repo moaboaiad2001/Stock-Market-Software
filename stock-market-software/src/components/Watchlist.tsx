@@ -1,37 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { NetworkManager } from "./NetworkManager";
+import React from "react";
+import { StockOption } from "../types"; // Import StockOption
 
-interface Stock {
-  symbol: string;
-  name: string;
-  price: number;
-  percentChange: number;
+interface WatchlistProps {
+  watchlist: StockOption[];
 }
 
-const Watchlist = () => {
-  const [watchlist, setWatchlist] = useState<Stock[]>([]);
-  const networkManager = new NetworkManager();
-
-  // Add a specific stock to the watchlist (APPLE in this case)
-  const addStockToWatchlist = async (symbol: string) => {
-    const updatedWatchlist = await networkManager.fetchStockSymbols(symbol); // Fetch only Apple
-    setWatchlist(updatedWatchlist); // Update the state with the fetched stock data
-  };
-
-  useEffect(() => {
-    addStockToWatchlist("AAPL"); // Only fetch Apple stock data
-  }, []); // Empty dependency array ensures this runs once after the component mounts
-
+const Watchlist: React.FC<WatchlistProps> = ({ watchlist = [] }) => {
+  // Default to empty array
   return (
-    <div className="watchlist-container">
-      <h1 className="watchlist-title">Watchlist</h1>
+    <div>
+      <h3 className="watchlist-title">Your Watchlist</h3>
       <ul id="stockList">
-        {watchlist.map((stock) => (
-          <li key={stock.symbol}>
-            {stock.symbol} - {stock.name} - ${stock.price} (
-            {stock.percentChange}%)
-          </li>
-        ))}
+        {watchlist.length > 0 ? (
+          watchlist.map((stock) => (
+            <li key={stock.value}>
+              {stock.label} - ${stock.price.toFixed(2)} (
+              {stock.change.toFixed(2)}%)
+            </li>
+          ))
+        ) : (
+          <p>No stocks in your watchlist</p>
+        )}
       </ul>
     </div>
   );

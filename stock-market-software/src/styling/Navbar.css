@@ -67,8 +67,11 @@
 /* Stock Dropdown Options */
 .stock-option {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 8px;
+  padding: 5px 10px; /* Reduce padding */
+  background: white;
+  border-bottom: 1px solid #ddd;
 }
 
 .stock-logo {
@@ -78,7 +81,9 @@
 }
 
 .stock-details {
-  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
 }
 
 .positive {
@@ -88,6 +93,22 @@
 .negative {
   color: #ff4444;
 }
+
+.add-to-watchlist-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s;
+}
+
+.add-to-watchlist-button:hover {
+  background-color: #388e3c;
+}
+
 
 /* Profile Icon */
 .navbar-profile {

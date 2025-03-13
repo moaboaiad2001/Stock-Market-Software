@@ -1,29 +1,18 @@
-import React, { useState, useEffect } from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import React, { useActionState, useState } from "react";
 import "../styling/Home.css";
 import Investment from "./Investment";
-import { NetworkManager } from "./NetworkManager"; // Assuming NetworkManager is imported correctly
 import News from "./News";
+import Watchlist from "./Watchlist";
+import PNLChart from "./PNL"; // Import PNLChart component
+import { StockOption } from "../types";
 
-const Home: React.FC = () => {
-  const [watchlist, setWatchlist] = useState<any[]>([]); // Watchlist data
+interface HomeProps {
+  watchlist: StockOption[];
+  toggleWatchlist: (stock: StockOption) => void;
+}
 
-  const investment = new Investment(
-    1000, // Initial amount (YTD)
-    1100, // 1-day ago amount
-    1050, // 1-week ago amount
-    950, // 1-month ago amount
-    900, // 3-month ago amount
-    800, // 1-year ago amount
-    1150 // Current amount
-  );
+const Home: React.FC<HomeProps> = ({ watchlist }) => {
+  const investment = new Investment(1000, 1100, 1050, 950, 900, 800, 1150);
 
   const timePeriods = [
     { label: "1 Day", key: "1D" },
@@ -37,134 +26,102 @@ const Home: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<
     "1D" | "1W" | "1M" | "3M" | "1Y" | "YTD"
   >("1D");
-  const [showPercent, setShowPercent] = useState(true);
 
-  // Fetch watchlist data on component mount
-  useEffect(() => {
-    const fetchWatchlist = async () => {
-      const networkManager = new NetworkManager();
-      const watchlistData = await networkManager.fetchStockSymbols("AAPL"); // Example query
-      setWatchlist(watchlistData); // Set the fetched data to state
-    };
-    fetchWatchlist();
-  }, []); // Empty dependency array ensures it runs only once on mount
+  const [hoveredValue, setHoveredValue] = useState<number | null>(null);
 
-  const getChartData = () => {
-    switch (selectedPeriod) {
-      case "1D":
-        return [
-          { time: "9:30 AM", value: investment.getIncrease("1D") * 0.2 },
-          { time: "11:00 AM", value: investment.getIncrease("1D") * 0.4 },
-          { time: "1:00 PM", value: investment.getIncrease("1D") * 0.6 },
-          { time: "3:00 PM", value: investment.getIncrease("1D") * 0.8 },
-          { time: "4:00 PM", value: investment.getIncrease("1D") },
-        ];
-      case "1W":
-        return [
-          { time: "Mon", value: investment.getIncrease("1W") * 0.2 },
-          { time: "Tue", value: investment.getIncrease("1W") * 0.4 },
-          { time: "Wed", value: investment.getIncrease("1W") * 0.6 },
-          { time: "Thu", value: investment.getIncrease("1W") * 0.8 },
-          { time: "Fri", value: investment.getIncrease("1W") },
-        ];
-      case "1M":
-        return [
-          { time: "Week 1", value: investment.getIncrease("1M") * 0.25 },
-          { time: "Week 2", value: investment.getIncrease("1M") * 0.5 },
-          { time: "Week 3", value: investment.getIncrease("1M") * 0.75 },
-          { time: "Week 4", value: investment.getIncrease("1M") },
-        ];
-      case "3M":
-        return [
-          { time: "Month 1", value: investment.getIncrease("3M") * 0.33 },
-          { time: "Month 2", value: investment.getIncrease("3M") * 0.66 },
-          { time: "Month 3", value: investment.getIncrease("3M") },
-        ];
-      case "1Y":
-        return [
-          { time: "Q1", value: investment.getIncrease("1Y") * 0.25 },
-          { time: "Q2", value: investment.getIncrease("1Y") * 0.5 },
-          { time: "Q3", value: investment.getIncrease("1Y") * 0.75 },
-          { time: "Q4", value: investment.getIncrease("1Y") },
-        ];
-      case "YTD":
-        return [
-          { time: "Jan", value: investment.getIncrease("YTD") * 0.1 },
-          { time: "Apr", value: investment.getIncrease("YTD") * 0.3 },
-          { time: "Jul", value: investment.getIncrease("YTD") * 0.6 },
-          { time: "Oct", value: investment.getIncrease("YTD") },
-        ];
-      default:
-        return []; // Make sure to return an empty array if no case matches
-    }
+  const handleHover = (value: number | null) => {
+    setHoveredValue(value);
   };
+
+  // Calculate the updated investment value when hovering
+  const updatedInvestmentValue =
+    hoveredValue !== null ? hoveredValue : investment.getCurrentAmount();
+
+  // Calculate the percent change
+  const initialInvestmentValue = investment.getCurrentAmount();
+  const percentChange =
+    initialInvestmentValue !== 0
+      ? 100 -
+        ((initialInvestmentValue - updatedInvestmentValue) /
+          initialInvestmentValue) *
+          100
+      : 0;
+
+  // Changing containers
+  const [container1, setContainer1] = useState("news");
+  const [container2, setContainer2] = useState("watchlist");
 
   return (
     <div className="home-page">
-      <h1>Portfolio</h1>
-      <h2>${investment.getCurrentAmount().toFixed(2)}</h2>
-
-      <h3 className={investment.getClassName(selectedPeriod)}>
-        ({investment.getSymbol(selectedPeriod)}{" "}
-        {`${investment.getPercentIncrease(selectedPeriod).toFixed(2)}% `}){" "}
-        {`$${investment.getIncrease(selectedPeriod).toFixed(2)}`}
-      </h3>
-
-      <div className="pnl-and-watchlist">
-        <div className="pnl-section">
-          <div className="chart-wrapper">
-            <div className="chart-container">
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={getChartData()}>
-                  <XAxis dataKey="time" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke={
-                      investment.getIncrease(selectedPeriod) >= 0
-                        ? "green"
-                        : "red"
-                    }
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+      <div className="first-row">
+        <div className="pnl-and-portfolio">
+          <h1>Portfolio</h1>
+          <h2>${initialInvestmentValue.toFixed(2)}</h2>
+          <h3 className={investment.getClassName(selectedPeriod)}>
+            {`$${
+              hoveredValue !== null
+                ? hoveredValue.toFixed(2) // Show hovered value
+                : 50.0 // Show the current investment value when not hovering
+            }`}{" "}
+            {`(${percentChange.toFixed(2)}%)`}
+          </h3>
+          <div className="pnl-and-watchlist">
+            <div className="pnl-section">
+              <PNLChart
+                investment={investment}
+                selectedPeriod={selectedPeriod}
+                onHover={handleHover} // Pass hover handler to PNLChart
+              />
+            </div>
+          </div>
+          <div className="buttons-container">
+            <div className="timeframe-buttons">
+              {timePeriods.map(({ label, key }) => (
+                <button
+                  key={key}
+                  className={selectedPeriod === key ? "active" : ""}
+                  onClick={() =>
+                    setSelectedPeriod(
+                      key as "1D" | "1W" | "1M" | "3M" | "1Y" | "YTD"
+                    )
+                  }
+                >
+                  {label}
+                </button>
+              ))}
             </div>
           </div>
         </div>
-        <News />
-      </div>
-
-      <div className="buttons-container">
-        <div className="timeframe-buttons">
-          {timePeriods.map(({ label, key }) => (
-            <button
-              key={key}
-              className={selectedPeriod === key ? "active" : ""}
-              onClick={() =>
-                setSelectedPeriod(
-                  key as "1D" | "1W" | "1M" | "3M" | "1Y" | "YTD"
-                )
-              }
-            >
-              {label}
-            </button>
-          ))}
+        <div className="news-container">
+          <select
+            value={container1}
+            onChange={(e) => setContainer1(e.target.value)}
+            className="container-dropdown"
+          >
+            <option value="news">News</option>
+            <option value="watchlist">Watchlist</option>
+          </select>
+          {container1 === "news" ? (
+            <News />
+          ) : (
+            <Watchlist watchlist={watchlist} />
+          )}
         </div>
       </div>
       <div className="watchlist-container">
-        <h1 className="watchlist-title">Watchlist</h1>
-        <ul id="stockList">
-          {watchlist.map((stock, index) => (
-            <li key={index}>
-              {stock.symbol} - {stock.name} - ${stock.price} (
-              {stock.percentChange}%)
-            </li>
-          ))}
-        </ul>
+        <select
+          value={container2}
+          onChange={(e) => setContainer2(e.target.value)}
+          className="container-dropdown"
+        >
+          <option value="news">News</option>
+          <option value="watchlist">Watchlist</option>
+        </select>
+        {container2 === "watchlist" ? (
+          <Watchlist watchlist={watchlist} />
+        ) : (
+          <News />
+        )}
       </div>
     </div>
   );

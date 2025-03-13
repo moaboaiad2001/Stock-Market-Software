@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { NetworkManager } from "./NetworkManager";
+import "../styling/Home.css";
 
 interface StockOption {
   value: string;
@@ -9,7 +10,12 @@ interface StockOption {
   change: number;
 }
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  watchlist: StockOption[]; // Add watchlist as a prop
+  toggleWatchlist: (stock: StockOption) => void; // Add toggleWatchlist as a prop
+}
+
+const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [stockOptions, setStockOptions] = useState<StockOption[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -29,7 +35,7 @@ const Navbar: React.FC = () => {
         setStockOptions(
           stocks.map((stock) => ({
             value: stock.symbol,
-            label: `${stock.symbol} - ${stock.name}`,
+            label: stock.symbol,
             price: stock.price,
             change: stock.percentChange,
           }))
@@ -41,24 +47,36 @@ const Navbar: React.FC = () => {
       }
     };
 
-    const timeoutId = setTimeout(fetchStocks, 500); // Add a delay to prevent excessive API calls
+    const timeoutId = setTimeout(fetchStocks, 500);
     return () => clearTimeout(timeoutId);
   }, [searchTerm]);
 
-  const handleInputChange = (inputValue: string) => {
-    setSearchTerm(inputValue);
-  };
+  const CustomOption = (props: any) => {
+    const { data, innerRef, innerProps } = props;
+    const isWatched = watchlist.some((s) => s.value === data.value); // Using the passed watchlist prop
 
-  const formatOptionLabel = (stock: StockOption) => (
-    <div className="stock-option">
-      <div className="stock-details">
-        <span>{stock.label}</span>
-        <span className={stock.change >= 0 ? "positive" : "negative"}>
-          ${stock.price.toFixed(2)} ({stock.change.toFixed(2)}%)
-        </span>
+    return (
+      <div ref={innerRef} {...innerProps} className="stock-option">
+        <div className="stock-details">
+          <span>
+            {data.label} - ${data.price.toFixed(2)}
+          </span>
+          <span className={data.change >= 0 ? "positive" : "negative"}>
+            ({data.change.toFixed(2)}%)
+          </span>
+        </div>
+        <button
+          className="add-to-watchlist-button"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent stock selection when clicking button
+            toggleWatchlist(data); // Call toggleWatchlist here
+          }}
+        >
+          {isWatched ? "✅" : "➕"}
+        </button>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <nav className="navbar">
@@ -68,11 +86,11 @@ const Navbar: React.FC = () => {
           className="navbar-search search-dropdown"
           styles={{ control: (provided) => ({ ...provided, width: "600px" }) }}
           options={stockOptions}
-          onInputChange={handleInputChange}
-          formatOptionLabel={formatOptionLabel}
+          onInputChange={(inputValue) => setSearchTerm(inputValue)}
           placeholder="Search Stocks"
           isLoading={isLoading}
           isClearable
+          components={{ Option: CustomOption }}
         />
       </div>
       <div className="navbar-links">
