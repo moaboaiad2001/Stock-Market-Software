@@ -117,7 +117,9 @@ h1, h2 {
 
 /* Watchlist & News Section - Right Side (30%) */
 .news-container,
-.watchlist-container {
+.watchlist-container,
+.funds-container, 
+.biggest-movers-container {
   flex: 1;
   margin-top: 20px;
   max-height: 100%; /* Ensure it doesn't exceed the PNL chart height */
@@ -130,6 +132,10 @@ h1, h2 {
   align-self: stretch; /* Ensures alignment with PNL container */
 }
 
+.container-dropdown {
+  border: none;
+}
+
 .news-container {
 max-height: 400px;
 min-width: 100px;
@@ -137,7 +143,9 @@ min-width: 100px;
 
 .watchlist-container {
   min-height: 400px !important;
+  max-height: 400px;
 }
+
 
 .first-row {
   display: flex !important;
@@ -153,10 +161,12 @@ min-width: 100px;
 .news-title,
 .watchlist-title {
   color: white;
-  font-size: 20px;
+  background-color: #1e1e1e;
+  font-size: 25px;
   margin-bottom: 10px;
   border-bottom: 2px solid #4caf50;
   padding-bottom: 5px;
+  font-weight: bold;
 }
 
 /* List Styling */
@@ -191,8 +201,9 @@ min-width: 100px;
   padding: 15px;
   border-radius: 8px;
   display: block; /* Change from flex to block to make the content stack vertically */
-  gap: 15px;
+  gap: 10px;
   transition: background 0.3s ease-in-out;
+  margin-bottom: 15px;
 }
 
 .news-article:hover {
@@ -265,4 +276,221 @@ min-width: 100px;
 
 .load-more-button:hover {
   background-color: #45a049;
+}
+
+/* Trending Section */
+.trending-list-title {
+  color: white;
+  font-size: 25px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #4caf50;
+  padding-bottom: 5px;
+}
+
+.trending-list-container {
+  margin-top: 30px;
+}
+
+.trending-categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 0;
+  list-style: none;
+  color: white;
+}
+
+.trending-categories li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100px;
+  height: 110px;
+}
+
+/* Link styling */
+.trending-category-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Hover Effect */
+.trending-category-link:hover {
+  transform: scale(1.1);
+}
+
+/* Icon styling */
+.trending-categories li svg {
+  width: 24px;
+  height: 24px;
+  padding: 14px;
+  border-radius: 50%;
+  background-color: var(--random-bg-color);
+  color: white;
+  margin-bottom: 5px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Hover Effect for Icons */
+.trending-category-link:hover svg {
+  background-color: #4caf50; /* Green on hover */
+}
+
+/* Title styling */
+.trending-categories li span {
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  line-height: 1.2;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Random background colors */
+.trending-categories li:nth-child(1) svg { background-color: #ff5733; }
+.trending-categories li:nth-child(2) svg { background-color: #33a1ff; }
+.trending-categories li:nth-child(3) svg { background-color: #28a745; }
+.trending-categories li:nth-child(4) svg { background-color: #ffc107; }
+.trending-categories li:nth-child(5) svg { background-color: #ff33bb; }
+.trending-categories li:nth-child(6) svg { background-color: #6610f2; }
+.trending-categories li:nth-child(7) svg { background-color: #20c997; }
+.trending-categories li:nth-child(8) svg { background-color: #fd7e14; }
+.trending-categories li:nth-child(9) svg { background-color: #17a2b8; }
+.trending-categories li:nth-child(10) svg { background-color: #e83e8c; }
+.trending-categories li:nth-child(11) svg { background-color: #6f42c1; }
+
+
+/* Funds Section */
+
+.funds-container {
+  max-width: 40%;
+  margin-right: auto;
+}
+
+.funds-title {
+  color: white;
+  font-size: 25px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #4caf50;
+  padding-bottom: 5px;
+}
+
+.cash-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.funds-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e1e1e; /* Dark theme */
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+.funds-card:hover {
+  transform: scale(1.02);
+}
+
+.funds-card h3 {
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+
+.third-section {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Biggest Movers */
+
+.biggest-movers-container {
+  max-width: 50%;
+}
+
+.biggest-movers-title {
+  color: white;
+  font-size: 25px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #4caf50;
+  padding-bottom: 5px;
+}
+
+.movers-section {
+  display: flex;
+  flex-direction: row; /* Align items horizontally */
+  justify-content: center;
+  gap: 10px;
+}
+
+.movers-container {
+  width: 60%; /* Each container will take up half the width */
+  background-color: #1e1e1e; /* Dark theme */
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.left {
+  color: green;
+}
+
+.right {
+  color: red;
+}
+
+.movers-stock-container {
+  background-color: #2d2d2d; /* Slightly different shade to differentiate */
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.movers-stock-container h3 {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.gainers-title, .losers-title {
+  color: white;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.gainers-title {
+  color: green;
+}
+
+.losers-title {
+  color: red;
+}
+
+.movers-stock-container:hover {
+  transform: scale(1.02);
+}
+
+.losers-change {
+  color: red !important;
+}
+
+.winners-change {
+  color: green !important;
 }

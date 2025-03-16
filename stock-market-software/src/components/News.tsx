@@ -28,7 +28,6 @@ const News = () => {
 
   return (
     <div>
-      <h1 className="news-title">Latest News</h1>
       <div className="news-list">
         {displayedNews.map((news, index) => (
           <div className="news-article" key={index}>
@@ -37,18 +36,6 @@ const News = () => {
                 {news.title}
               </a>
             </h2>
-            <p className="news-article-symbol">
-              <strong>{news.symbol}</strong>
-            </p>
-            <p className="news-article-body">{news.news}</p>
-            <a
-              href={news.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="read-more"
-            >
-              Read full article
-            </a>
           </div>
         ))}
       </div>

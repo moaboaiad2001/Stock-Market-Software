@@ -6,10 +6,8 @@ interface WatchlistProps {
 }
 
 const Watchlist: React.FC<WatchlistProps> = ({ watchlist = [] }) => {
-  // Default to empty array
   return (
     <div>
-      <h3 className="watchlist-title">Your Watchlist</h3>
       <ul id="stockList">
         {watchlist.length > 0 ? (
           watchlist.map((stock) => (

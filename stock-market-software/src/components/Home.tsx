@@ -5,6 +5,9 @@ import News from "./News";
 import Watchlist from "./Watchlist";
 import PNLChart from "./PNL"; // Import PNLChart component
 import { StockOption } from "../types";
+import TrendingList from "./TrendingList";
+import Funds from "./Funds";
+import BiggestMovers from "./BiggestMovers";
 
 interface HomeProps {
   watchlist: StockOption[];
@@ -50,6 +53,8 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
   // Changing containers
   const [container1, setContainer1] = useState("news");
   const [container2, setContainer2] = useState("watchlist");
+  const [container3, setContainer3] = useState("funds");
+  const [container4, setContainer4] = useState("biggest-movers");
 
   return (
     <div className="home-page">
@@ -96,15 +101,21 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
           <select
             value={container1}
             onChange={(e) => setContainer1(e.target.value)}
-            className="container-dropdown"
+            className="container-dropdown news-title"
           >
             <option value="news">News</option>
             <option value="watchlist">Watchlist</option>
+            <option value="funds">Funds</option>
+            <option value="biggest-movers">Biggest Movers</option>
           </select>
           {container1 === "news" ? (
             <News />
-          ) : (
+          ) : container1 === "watchlist" ? (
             <Watchlist watchlist={watchlist} />
+          ) : container1 === "funds" ? (
+            <Funds />
+          ) : (
+            <BiggestMovers />
           )}
         </div>
       </div>
@@ -112,16 +123,69 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
         <select
           value={container2}
           onChange={(e) => setContainer2(e.target.value)}
-          className="container-dropdown"
+          className="container-dropdown watchlist-title"
         >
           <option value="news">News</option>
           <option value="watchlist">Watchlist</option>
+          <option value="funds">Funds</option>
+          <option value="biggest-movers">Biggest Movers</option>
         </select>
         {container2 === "watchlist" ? (
           <Watchlist watchlist={watchlist} />
-        ) : (
+        ) : container2 === "news" ? (
           <News />
+        ) : container2 === "funds" ? (
+          <Funds />
+        ) : (
+          <BiggestMovers />
         )}
+      </div>
+      <div className="trending-list-container">
+        <TrendingList />
+      </div>
+      <div className="third-section">
+        <div className="funds-container">
+          <select
+            value={container3}
+            onChange={(e) => setContainer3(e.target.value)}
+            className="container-dropdown watchlist-title"
+          >
+            <option value="funds">Funds</option>
+            <option value="watchlist">Watchlist</option>
+            <option value="biggest-movers">Biggest Movers</option>
+            <option value="news">News</option>
+          </select>
+          {container3 === "funds" ? (
+            <Funds />
+          ) : container3 === "news" ? (
+            <News />
+          ) : container3 === "biggest-movers" ? (
+            <BiggestMovers />
+          ) : (
+            <Watchlist watchlist={watchlist} />
+          )}
+        </div>
+        <div className="biggest-movers-container">
+          <select
+            value={container4}
+            onChange={(e) => setContainer4(e.target.value)}
+            className="container-dropdown watchlist-title"
+          >
+            <option value="biggest-movers">Biggest Movers</option>
+            <option value="watchlist">Watchlist</option>
+            <option value="funds">Funds</option>
+            <option value="news">News</option>
+          </select>
+          {container4 === "biggest-movers" ? (
+            <BiggestMovers />
+          ) : container4 === "news" ? (
+            <News />
+          ) : container4 === "funds" ? (
+            <Funds />
+          ) : (
+            <Watchlist watchlist={watchlist} />
+          )}
+        </div>
       </div>
     </div>
   );

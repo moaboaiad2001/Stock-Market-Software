@@ -10,7 +10,6 @@ export class NetworkManager {
     { symbol: string; name: string; price: number; percentChange: number }[]
   > {
     if (!query) return [];
-
     const url = `https://api.polygon.io/v3/reference/tickers?search=${query}&active=true&limit=20&apiKey=${this.yahooFinanceApiKey}`;
 
     try {
@@ -37,21 +36,60 @@ export class NetworkManager {
 
   async getStockData(
     symbol: string
-  ): Promise<{ price: number; percentChange?: number }> {
-    const url = `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${this.finnhubApiKey}`;
+  ): Promise<{ name?: string; price: number; percentChange?: number }> {
+    const quoteUrl = `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${this.finnhubApiKey}`;
+    const profileUrl = `https://finnhub.io/api/v1/stock/profile2?symbol=${symbol}&token=${this.finnhubApiKey}`;
+
     try {
-      const response = await fetch(url);
-      const data = await response.json();
-      if (data) {
-        return {
-          price: data.c || 0,
-          percentChange: data.dp || 0,
-        };
-      }
-      return { price: 0 };
+      const [quoteResponse, profileResponse] = await Promise.all([
+        fetch(quoteUrl),
+        fetch(profileUrl),
+      ]);
+
+      const quoteData = await quoteResponse.json();
+      const profileData = await profileResponse.json();
+
+      return {
+        name: profileData.name || symbol, // Fetching the company name
+        price: quoteData.c || 0,
+        percentChange: quoteData.dp || 0,
+      };
     } catch (error) {
       console.error(`Error fetching data for ${symbol}:`, error);
       return { price: 0 };
+    }
+  }
+
+  async fetchGainersAndLosers(): Promise<{ gainers: any[]; losers: any[] }> {
+    const url = `https://finnhub.io/api/v1/stock/symbol?exchange=US&token=${this.finnhubApiKey}`;
+    try {
+      const response = await fetch(url);
+      const symbols = await response.json();
+
+      const stockDataPromises = symbols.slice(0, 50).map(async (stock: any) => {
+        const stockData = await this.getStockData(stock.symbol);
+        return {
+          symbol: stock.symbol,
+          name: stock.description, // Adding company name
+          price: stockData.price,
+          percentChange: stockData.percentChange || 0,
+        };
+      });
+
+      const stocks = await Promise.all(stockDataPromises);
+      const gainers = stocks
+        .filter((stock) => stock.percentChange > 0)
+        .sort((a, b) => b.percentChange - a.percentChange)
+        .slice(0, 10);
+      const losers = stocks
+        .filter((stock) => stock.percentChange < 0)
+        .sort((a, b) => a.percentChange - b.percentChange)
+        .slice(0, 10);
+
+      return { gainers, losers };
+    } catch (error) {
+      console.error("Error fetching gainers and losers:", error);
+      return { gainers: [], losers: [] };
     }
   }
 
@@ -72,8 +110,7 @@ export class NetworkManager {
       name: symbol, // You can adjust this to fetch the full name if needed
       price: stockData.price,
       percentChange: stockData.percentChange || 0,
-    }; // Add the stock to the list
-
+    };
     return [...stockList, stockInfo];
   }
 
@@ -122,7 +159,7 @@ export class NetworkManager {
           title: news.title || "No Title",
           news: news.description || "No News Available",
           url: news.article_url || "#",
-          imageUrl: news.image_url || "", // Include image
+          imageUrl: news.image_url || "",
         })
       );
     } catch (error) {

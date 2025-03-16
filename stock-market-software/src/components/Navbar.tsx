@@ -35,7 +35,7 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
         setStockOptions(
           stocks.map((stock) => ({
             value: stock.symbol,
-            label: stock.symbol,
+            label: `${stock.name} (${stock.symbol})`,
             price: stock.price,
             change: stock.percentChange,
           }))
@@ -59,7 +59,7 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
       <div ref={innerRef} {...innerProps} className="stock-option">
         <div className="stock-details">
           <span>
-            {data.label} - ${data.price.toFixed(2)}
+            <strong>{data.label}</strong> - ${data.price.toFixed(2)}
           </span>
           <span className={data.change >= 0 ? "positive" : "negative"}>
             ({data.change.toFixed(2)}%)
