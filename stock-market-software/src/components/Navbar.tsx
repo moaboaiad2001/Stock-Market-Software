@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { NetworkManager } from "./NetworkManager";
 import "../styling/Home.css";
+import { Link } from "react-router-dom";
 
 interface StockOption {
   value: string;
@@ -94,13 +95,15 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
         />
       </div>
       <div className="navbar-links">
-        <a href="#">Home</a>
-        <a href="#">Portfolio</a>
-        <a href="#">Markets</a>
-        <a href="#">News</a>
-        <a href="#" className="navbar-profile">
+        <Link to="/">Home</Link>
+        <Link to="/portfolio">Portfolio</Link>{" "}
+        {/* ✅ Corrected Portfolio Link */}
+        <Link to="/markets">Markets</Link>
+        <Link to="/news">News</Link>
+        <Link to="/profile" className="navbar-profile">
           👤
-        </a>
+        </Link>{" "}
+        {/* ✅ Corrected Profile Link */}
       </div>
     </nav>
   );

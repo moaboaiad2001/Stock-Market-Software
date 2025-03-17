@@ -1,0 +1,86 @@
+:root {
+   
+    --card-color: #000000;
+    --text-color: #ffffff;
+    --secondary-text-color: #b3b3b3;
+    --border-radius: 12px;
+  }
+  
+  .profile-page {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 60px; /* Increased padding */
+    font-family: "Playfair Display";
+  }
+  
+  .profile-title {
+    width: 100%;
+    font-size: 30px; /* Bigger title */
+    margin-bottom: 40px; /* More space below title */
+  }
+  
+  .profile-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 50px; /* More spacing between grid items */
+    flex: 1;
+  }
+  
+  .profile-card {
+    background-color: var(--card-color);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 8px 10px rgba(255, 255, 255, 0.1), 
+                0px -8px 10px rgba(255, 255, 255, 0.1), 
+                8px 0px 10px rgba(255, 255, 255, 0.1), 
+                -8px 0px 10px rgba(255, 255, 255, 0.1);
+    font-size: 15px;
+  }
+  
+  .profile-card:hover {
+    background-color: #000000;
+    box-shadow: 0px 8px 16px rgba(255, 255, 255, 0.3), 
+                0px -8px 16px rgba(255, 255, 255, 0.3), 
+                8px 0px 16px rgba(255, 255, 255, 0.3), 
+                -8px 0px 16px rgba(255, 255, 255, 0.3); /* Even shadow */
+  }
+  
+  
+  
+  .profile-card .icon {
+    font-size: 10px;
+  }
+  
+  .profile-sidebar {
+    flex: 0.4; /* More space for sidebar */
+    padding-left: 60px; /* Increased padding for separation */
+  }
+  
+  .profile-sidebar h3 {
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: var(--secondary-text-color);
+  }
+  
+  .sidebar-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0; /* More padding for bigger click area */
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .sidebar-item:hover {
+    color: #ffffff;
+  }
+  

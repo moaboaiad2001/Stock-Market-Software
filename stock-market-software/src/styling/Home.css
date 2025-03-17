@@ -1,13 +1,14 @@
 /* General Styling */
 html {
   background-color: black;
-  font-family: Arial, sans-serif;
+  font-family: "Playfair Display", sans-serif;
 }
 
-h1, h2 {
+h1, h2, h3 {
   color: white;
   margin: 0;
   padding: 10px 0;
+  font-family: "Playfair Display" !important;
 }
 
 .home-page {
@@ -123,13 +124,14 @@ h1, h2 {
   flex: 1;
   margin-top: 20px;
   max-height: 100%; /* Ensure it doesn't exceed the PNL chart height */
-  background-color: #1e1e1e;
+  background-color: #000000;
   padding: 20px;
   border-radius: 10px;
   color: white;
-  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
   overflow: auto; /* Ensures scrolling if content overflows */
   align-self: stretch; /* Ensures alignment with PNL container */
+  border: solid rgb(38, 38, 38);
+  font-family: "Playfair Display";
 }
 
 .container-dropdown {
@@ -161,12 +163,13 @@ min-width: 100px;
 .news-title,
 .watchlist-title {
   color: white;
-  background-color: #1e1e1e;
+  background-color: #000000;
   font-size: 25px;
   margin-bottom: 10px;
   border-bottom: 2px solid #4caf50;
   padding-bottom: 5px;
   font-weight: bold;
+  font-family: "Playfair Display";
 }
 
 /* List Styling */
@@ -178,7 +181,7 @@ min-width: 100px;
 }
 
 #stockList li {
-  background-color: #2a2a2a;
+  background-color: #000000;
   padding: 10px;
   margin: 5px 0;
   border-radius: 5px;
@@ -188,6 +191,7 @@ min-width: 100px;
   font-size: 16px;
   transition: background 0.3s ease-in-out;
   color: white;
+  border: solid #4caf50;
 }
 
 #stockList li:hover {
@@ -197,13 +201,14 @@ min-width: 100px;
 
 /* News Article */
 .news-article {
-  background-color: #2a2a2a;
+  background-color: #000000;
   padding: 15px;
   border-radius: 8px;
   display: block; /* Change from flex to block to make the content stack vertically */
   gap: 10px;
   transition: background 0.3s ease-in-out;
   margin-bottom: 15px;
+  border: solid #005503;
 }
 
 .news-article:hover {
@@ -394,11 +399,12 @@ min-width: 100px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1e1e1e; /* Dark theme */
+  background-color: #000000; /* Dark theme */
   padding: 15px 20px;
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease-in-out;
+  border: solid #003b02;
 }
 
 .funds-card:hover {
@@ -440,10 +446,11 @@ min-width: 100px;
 
 .movers-container {
   width: 60%; /* Each container will take up half the width */
-  background-color: #1e1e1e; /* Dark theme */
+  background-color: #000000; /* Dark theme */
   padding: 15px;
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+ 
 }
 
 .left {
@@ -455,12 +462,13 @@ min-width: 100px;
 }
 
 .movers-stock-container {
-  background-color: #2d2d2d; /* Slightly different shade to differentiate */
+  background-color: #000000; /* Slightly different shade to differentiate */
   padding: 15px;
   border-radius: 8px;
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
+  border: solid #00470d;
 }
 
 .movers-stock-container h3 {
