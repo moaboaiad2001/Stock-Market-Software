@@ -118,7 +118,6 @@ h1, h2, h3 {
 
 /* Watchlist & News Section - Right Side (30%) */
 .news-container,
-.watchlist-container,
 .funds-container, 
 .biggest-movers-container {
   flex: 1;
@@ -143,12 +142,6 @@ max-height: 400px;
 min-width: 100px;
 }
 
-.watchlist-container {
-  min-height: 400px !important;
-  max-height: 400px;
-}
-
-
 .first-row {
   display: flex !important;
 }
@@ -171,6 +164,8 @@ min-width: 100px;
   font-weight: bold;
   font-family: "Playfair Display";
 }
+
+
 
 /* List Styling */
 #stockList {
@@ -202,13 +197,11 @@ min-width: 100px;
 /* News Article */
 .news-article {
   background-color: #000000;
-  padding: 15px;
-  border-radius: 8px;
+  padding: 0px;
   display: block; /* Change from flex to block to make the content stack vertically */
-  gap: 10px;
+  gap: 0px;
   transition: background 0.3s ease-in-out;
   margin-bottom: 15px;
-  border: solid #005503;
 }
 
 .news-article:hover {
@@ -217,53 +210,65 @@ min-width: 100px;
 }
 
 /* News Image */
-.news-image {
-  width: 120px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 5px;
+/* News Article */
+.news-article {
+  background-color: #000000;
+  padding: 0px;
+  border-radius: 0px;
+  display: block; /* Stack content vertically */
+  gap: 10px;
+  transition: background 0.3s ease-in-out;
+  margin-bottom: 15px;
+  min-height: relative; /* Fixed height for equal-length cards */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-bottom: 1px solid white;
 }
 
-/* News Content */
-.news-content {
-  flex: 1;
+
+
+/* Hover effect */
+.news-article:hover {
+  background-color: #4caf50;
+  color: black;
 }
 
 /* News Title */
 .news-article-title a {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 12px; /* Smaller font size */
+  font-weight: lighter;
   color: white;
   text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Truncate with '...' if the text overflows */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limit to 3 lines for WebKit browsers */
+  -webkit-box-orient: vertical;
+
+  /* Fallback for non-WebKit browsers */
+  line-clamp: 3; /* Standard property (still experimental in most browsers) */
+  box-orient: vertical; /* For non-WebKit browsers */
 }
 
 .news-article-title a:hover {
   text-decoration: underline;
 }
 
-/* Symbol */
-.news-article-symbol {
-  font-size: 14px;
-  color: #ccc;
-  margin-top: 5px;
-}
-
 /* News Body */
 .news-article-body {
-  font-size: 14px;
+  font-size: 10px; /* Smaller font size */
   color: #ddd;
   margin: 5px 0;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Ensure body text is also truncated if needed */
 }
 
-/* Read More */
-.read-more {
-  color: #ff8800;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.read-more:hover {
-  text-decoration: underline;
+/* Symbol */
+.news-article-symbol {
+  font-size: 12px; /* Smaller font size */
+  color: #ccc;
+  margin-top: 5px;
 }
 
 /* Load More Button */
@@ -282,6 +287,7 @@ min-width: 100px;
 .load-more-button:hover {
   background-color: #45a049;
 }
+
 
 /* Trending Section */
 .trending-list-title {
@@ -404,7 +410,7 @@ min-width: 100px;
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease-in-out;
-  border: solid #003b02;
+  border: none;
 }
 
 .funds-card:hover {
@@ -471,7 +477,22 @@ min-width: 100px;
   border: solid #00470d;
 }
 
+.movers-stock-container-losers {
+  background-color: #000000; /* Slightly different shade to differentiate */
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  border: solid #470000;
+}
+
 .movers-stock-container h3 {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+}
+.movers-stock-container-losers h3 {
   color: white;
   font-size: 14px;
   font-weight: 500;
@@ -495,10 +516,104 @@ min-width: 100px;
   transform: scale(1.02);
 }
 
+.movers-stock-container-losers:hover {
+  transform: scale(1.02);
+}
+
 .losers-change {
   color: red !important;
 }
 
 .winners-change {
   color: green !important;
+}
+
+/* Watchlist Container */
+
+.watchlist-container {
+  min-height: 400px;
+  max-height: 400px;
+  background-color: #000;
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  overflow: auto;
+  border: 1px solid #262626;
+  font-family: "Playfair Display";
+}
+
+.watchlist-title {
+  color: white;
+  font-size: 25px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #4caf50;
+  padding-bottom: 5px;
+  font-weight: bold;
+}
+
+#stockList {
+  list-style: none;
+  padding: 0;
+  color: white;
+}
+
+#stockList li {
+  background-color: black;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  transition: background 0.3s;
+  border: 1px solid #4caf50;
+}
+
+#stockList li:hover {
+  background-color: #4caf50;
+  color: black;
+}
+
+/* Watchlist Dropdown */
+.watchlist-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.watchlist-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgb(0, 247, 255);
+  font-size: 24px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50%;
+  background: rgb(0, 0, 0);
+  border: 1px solid #4caf50;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  display: none;
+  flex-direction: column;
+  min-width: 150px;
+  z-index: 10;
+  list-style-type: none;
+  padding: 0 !important;
+}
+
+.dropdown-menu.show {
+  display: flex;
+}
+
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdown-item:hover {
+  background-color: #4caf50;
+  color: white;
 }

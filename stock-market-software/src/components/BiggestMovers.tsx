@@ -53,7 +53,7 @@ const BiggestMovers = () => {
         <div className="movers-container right">
           <h3 className="losers-title">Top Losers</h3>
           {losers.map((stock) => (
-            <div className="movers-stock-container" key={stock.symbol}>
+            <div className="movers-stock-container-losers" key={stock.symbol}>
               <h3>
                 {stock.name} ({stock.symbol})
               </h3>

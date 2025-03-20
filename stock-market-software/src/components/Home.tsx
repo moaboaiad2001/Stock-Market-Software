@@ -8,6 +8,7 @@ import { StockOption } from "../types";
 import TrendingList from "./TrendingList";
 import Funds from "./Funds";
 import BiggestMovers from "./BiggestMovers";
+import { LuListFilter } from "react-icons/lu";
 
 interface HomeProps {
   watchlist: StockOption[];
@@ -120,25 +121,27 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
         </div>
       </div>
       <div className="watchlist-container">
-        <select
-          value={container2}
-          onChange={(e) => setContainer2(e.target.value)}
-          className="container-dropdown watchlist-title"
-        >
-          <option value="news">News</option>
-          <option value="watchlist">Watchlist</option>
-          <option value="funds">Funds</option>
-          <option value="biggest-movers">Biggest Movers</option>
-        </select>
-        {container2 === "watchlist" ? (
-          <Watchlist watchlist={watchlist} />
-        ) : container2 === "news" ? (
-          <News />
-        ) : container2 === "funds" ? (
-          <Funds />
-        ) : (
-          <BiggestMovers />
-        )}
+        <div className="watchlist-filter">
+          <select
+            value={container2}
+            onChange={(e) => setContainer2(e.target.value)}
+            className="container-dropdown watchlist-title"
+          >
+            <option value="news">News</option>
+            <option value="watchlist">Watchlist</option>
+            <option value="funds">Funds</option>
+            <option value="biggest-movers">Biggest Movers</option>
+          </select>
+          {container2 === "watchlist" ? (
+            <Watchlist watchlist={watchlist} />
+          ) : container2 === "news" ? (
+            <News />
+          ) : container2 === "funds" ? (
+            <Funds />
+          ) : (
+            <BiggestMovers />
+          )}
+        </div>
       </div>
       <div className="trending-list-container">
         <TrendingList />

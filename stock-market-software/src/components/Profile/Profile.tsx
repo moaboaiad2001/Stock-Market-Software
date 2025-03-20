@@ -1,20 +1,24 @@
 import React from "react";
 import "../../styling/Profile.css";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   return (
     <div className="profile-page">
       <h1 className="profile-title">Account</h1>
-
       <div className="profile-sections">
-        <div className="profile-card">
-          <span className="icon">💰</span>
-          <h2>Personal Information</h2>
-        </div>
-        <div className="profile-card">
-          <span className="icon">🔒</span>
-          <h2>Transfers</h2>
-        </div>
+        <Link to="/personal-information" className="profile-link">
+          <div className="profile-card">
+            <span className="icon">💰</span>
+            <h2>Personal Information</h2>
+          </div>
+        </Link>
+        <Link to="/transfers" className="profile-link">
+          <div className="profile-card">
+            <span className="icon">🔒</span>
+            <h2>Transfers</h2>
+          </div>
+        </Link>
         <div className="profile-card">
           <span className="icon">👤</span>
           <h2>Portfolio Overview</h2>
@@ -24,15 +28,21 @@ const Profile = () => {
           <h2>Transaction History</h2>
         </div>
         <div className="profile-card">
-          <span className="icon">📈</span>
+          <span className="icon">📊</span>
           <h2>Apply for Option Trading</h2>
         </div>
+        <Link to="/rewards" className="profile-link">
+          <div className="profile-card">
+            <span className="icon">📊</span>
+            <h2>Rewards</h2>
+          </div>
+        </Link>
         <div className="profile-card">
-          <span className="icon">📈</span>
+          <span className="icon">⚙️</span>
           <h2>Settings</h2>
         </div>
         <div className="profile-card">
-          <span className="icon">📈</span>
+          <span className="icon">🚪</span>
           <h2>Logout</h2>
         </div>
       </div>

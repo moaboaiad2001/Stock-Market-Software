@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Profile from "./components/Profile/Profile";
+import PersonalInformation from "./components/Profile/PersonalInformation";
+import Tranfsers from "./components/Profile/Tranfsers";
+import Rewards from "./components/Profile/Rewards";
 import { StockOption } from "./types"; // Import StockOption
 
 const App: React.FC = () => {
@@ -21,7 +24,6 @@ const App: React.FC = () => {
     <Router>
       <Navbar watchlist={watchlist} toggleWatchlist={toggleWatchlist} />
       <Routes>
-        {/* Set Home as the default page using index */}
         <Route
           path="/"
           element={
@@ -29,7 +31,9 @@ const App: React.FC = () => {
           }
         />
         <Route path="/profile" element={<Profile />} />
-        {/*<Route path="/portfolio" element={<Portfolio />} />*/}
+        <Route path="/personal-information" element={<PersonalInformation />} />
+        <Route path="/transfers" element={<Tranfsers />} />
+        <Route path="/rewards" element={<Rewards />} />
       </Routes>
     </Router>
   );
