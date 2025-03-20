@@ -19,32 +19,42 @@ const Profile = () => {
             <h2>Transfers</h2>
           </div>
         </Link>
-        <div className="profile-card">
-          <span className="icon">👤</span>
-          <h2>Portfolio Overview</h2>
-        </div>
-        <div className="profile-card">
-          <span className="icon">🔔</span>
-          <h2>Transaction History</h2>
-        </div>
-        <div className="profile-card">
-          <span className="icon">📊</span>
-          <h2>Apply for Option Trading</h2>
-        </div>
+        <Link to="/transfers" className="profile-link">
+          <div className="profile-card">
+            <span className="icon">👤</span>
+            <h2>Portfolio Overview</h2>
+          </div>
+        </Link>
+        <Link to="/transfers" className="profile-link">
+          <div className="profile-card">
+            <span className="icon">🔔</span>
+            <h2>Transaction History</h2>
+          </div>
+        </Link>
+        <Link to="/transfers" className="profile-link">
+          <div className="profile-card">
+            <span className="icon">📊</span>
+            <h2>Apply for Option Trading</h2>
+          </div>
+        </Link>
         <Link to="/rewards" className="profile-link">
           <div className="profile-card">
             <span className="icon">📊</span>
             <h2>Rewards</h2>
           </div>
         </Link>
-        <div className="profile-card">
-          <span className="icon">⚙️</span>
-          <h2>Settings</h2>
-        </div>
-        <div className="profile-card">
-          <span className="icon">🚪</span>
-          <h2>Logout</h2>
-        </div>
+        <Link to="/transfers" className="profile-link">
+          <div className="profile-card">
+            <span className="icon">⚙️</span>
+            <h2>Settings</h2>
+          </div>
+        </Link>
+        <Link to="/transfers" className="profile-link">
+          <div className="profile-card">
+            <span className="icon">🚪</span>
+            <h2>Logout</h2>
+          </div>
+        </Link>
       </div>
 
       <div className="profile-sidebar">

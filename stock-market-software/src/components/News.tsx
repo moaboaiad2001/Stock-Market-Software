@@ -16,7 +16,14 @@ const News = () => {
   const fetchNews = async () => {
     console.log("Fetching news with empty ticker...");
     const newsData = await networkManager.getStockNews(""); // Empty string should work
-    setNewslist(newsData);
+    setNewslist(
+      newsData.map((news: any) => ({
+        symbol: news.symbol,
+        title: news.title,
+        news: news.news,
+        url: news.url || "#",
+      }))
+    );
   };
 
   useEffect(() => {
@@ -27,16 +34,16 @@ const News = () => {
   const displayedNews = newslist.slice(0, page * newsPerPage);
 
   return (
-    <div className="news-container">
-      <h1 className="news-title">News</h1>
-      <ul id="newslist">
+    <div>
+      <div className="news-list">
         {displayedNews.map((news, index) => (
-          <li key={index}>
-            <strong>
-              {news.symbol} - {news.title}
-            </strong>
-            <p>{news.news}</p>
-          </li>
+          <div className="news-article" key={index}>
+            <h2 className="news-article-title">
+              <a href={news.url} target="_blank" rel="noopener noreferrer">
+                {news.title}
+              </a>
+            </h2>
+          </div>
         ))}
       </div>
       {displayedNews.length < newslist.length && (

@@ -74,14 +74,23 @@
     margin-bottom: 10px;
   }
   
+  .reward-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers horizontally */
+    justify-content: center; /* Centers vertically */
+  }
+  
   .reward-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; /* Keeps items spaced inside */
     width: 80%;
+    max-width: 400px; /* Prevents stretching too wide */
     padding: 10px;
     border-bottom: 1px solid #333;
   }
+  
   
   .reward-icon {
     color: #0f0;

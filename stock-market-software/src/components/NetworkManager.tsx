@@ -114,35 +114,54 @@ export class NetworkManager {
     return [...stockList, stockInfo];
   }
 
-  async getStockNews(
-    query: string
-  ): Promise<{ symbol: string; title: string; news: string }[]> {
-    if (!query) return [];
-
-    const newsURL = `https://api.polygon.io/v2/reference/news?limit=10&apiKey=Fb7LNj6K1zBvnardW_HTHkXkJM0rLBLs`;
+  async getStockNews(ticker: string): Promise<
+    {
+      symbol: string;
+      title: string;
+      news: string;
+      url: string;
+      imageUrl?: string;
+    }[]
+  > {
+    console.log(`getStockNews called with ticker: '${ticker}'`);
+    const baseURL = "https://api.polygon.io/v2/reference/news";
+    const newsURL = `${baseURL}?${
+      ticker ? `ticker=${ticker}&` : ""
+    }limit=10&apiKey=${this.yahooFinanceApiKey}`;
 
     try {
-      const response = await fetch(newsURL, {
-        headers: {
-          "Cache-Control": "no-cache", // Prevent caching
-          "If-None-Match": "no-match",
-        },
-      });
-      const newsData: { results?: { title?: string; description?: string }[] } =
-        await response.json();
+      console.log(`Fetching news from: ${newsURL}`);
+      const response = await fetch(newsURL);
 
-      if (Array.isArray(newsData.results)) {
-        console.log(newsData);
-        return newsData.results.map(
-          (news: { title?: string; description?: string }) => ({
-            symbol: query,
-            title: news.title || "No Title",
-            news: news.description || "No News Available",
-          })
+      if (!response.ok) {
+        console.error(
+          `Error fetching news: ${response.status} - ${response.statusText}`
         );
+        return [];
       }
 
-      return [];
+      const newsData = await response.json();
+      console.log("News API Response:", newsData);
+      if (!newsData.results || !Array.isArray(newsData.results)) {
+        console.warn("getStockNews: No valid news data received.");
+        return [];
+      }
+
+      return newsData.results.map(
+        (news: {
+          tickers?: string[];
+          title?: string;
+          description?: string;
+          article_url?: string;
+          image_url?: string;
+        }) => ({
+          symbol: news.tickers?.join(", ") || "General News",
+          title: news.title || "No Title",
+          news: news.description || "No News Available",
+          url: news.article_url || "#",
+          imageUrl: news.image_url || "",
+        })
+      );
     } catch (error) {
       console.error("Error in getStockNews:", error);
       return [];

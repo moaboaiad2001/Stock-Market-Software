@@ -27,15 +27,17 @@ const Rewards = () => {
       <button className="share-invite-button">Share Invite Link</button>
 
       <h3 className="rewards-section-title">Your Rewards</h3>
-      <div className="reward-item">
-        <FaStar className="reward-icon" />
-        <span>Sign-Up Bonus</span>
-        <span className="reward-amount">$10</span>
-      </div>
-      <div className="reward-item">
-        <FaUserFriends className="reward-icon" />
-        <span>First Invite Reward</span>
-        <span className="reward-amount">$5</span>
+      <div className="reward-container">
+        <div className="reward-item">
+          <FaStar className="reward-icon" />
+          <span>Sign-Up Bonus</span>
+          <span className="reward-amount">$10</span>
+        </div>
+        <div className="reward-item">
+          <FaUserFriends className="reward-icon" />
+          <span>First Invite Reward</span>
+          <span className="reward-amount">$5</span>
+        </div>
       </div>
     </div>
   );
