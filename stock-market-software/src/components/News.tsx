@@ -27,16 +27,16 @@ const News = () => {
   const displayedNews = newslist.slice(0, page * newsPerPage);
 
   return (
-    <div>
-      <div className="news-list">
+    <div className="news-container">
+      <h1 className="news-title">News</h1>
+      <ul id="newslist">
         {displayedNews.map((news, index) => (
-          <div className="news-article" key={index}>
-            <h2 className="news-article-title">
-              <a href={news.url} target="_blank" rel="noopener noreferrer">
-                {news.title}
-              </a>
-            </h2>
-          </div>
+          <li key={index}>
+            <strong>
+              {news.symbol} - {news.title}
+            </strong>
+            <p>{news.news}</p>
+          </li>
         ))}
       </div>
       {displayedNews.length < newslist.length && (
