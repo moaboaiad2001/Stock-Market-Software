@@ -1,0 +1,20 @@
+/* pnl.css */
+.pnl-section {
+    flex: 2;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-left: -50px;
+    max-width: 70%;
+  }
+  
+  .chart-wrapper {
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  
+  .chart-container {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+  }

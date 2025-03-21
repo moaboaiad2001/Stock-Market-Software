@@ -154,12 +154,20 @@ export class NetworkManager {
           description?: string;
           article_url?: string;
           image_url?: string;
+          published_utc?: string; // UTC published date
+          publisher?: {
+            name?: string; // Publisher's name (company)
+          };
         }) => ({
           symbol: news.tickers?.join(", ") || "General News",
           title: news.title || "No Title",
           news: news.description || "No News Available",
           url: news.article_url || "#",
           imageUrl: news.image_url || "",
+          company: news.publisher?.name || "Unknown Source", // Use publisher.name as company
+          date: news.published_utc
+            ? new Date(news.published_utc).toLocaleDateString()
+            : "Unknown Date", // Format published_utc date
         })
       );
     } catch (error) {

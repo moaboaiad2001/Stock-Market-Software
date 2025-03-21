@@ -3,6 +3,9 @@ import Select from "react-select";
 import { NetworkManager } from "./NetworkManager";
 import "../styling/Home.css";
 import { Link } from "react-router-dom";
+import { IoPerson } from "react-icons/io5";
+import { FaCheck } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 
 interface StockOption {
   value: string;
@@ -73,7 +76,7 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
             toggleWatchlist(data); // Call toggleWatchlist here
           }}
         >
-          {isWatched ? "✅" : "➕"}
+          {isWatched ? <FaCheck /> : <FaPlus />}
         </button>
       </div>
     );
@@ -101,7 +104,7 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
         <Link to="/markets">Markets</Link>
         <Link to="/news">News</Link>
         <Link to="/profile" className="navbar-profile">
-          👤
+          <IoPerson />
         </Link>{" "}
         {/* ✅ Corrected Profile Link */}
       </div>

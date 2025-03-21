@@ -1,0 +1,12 @@
+.news-container {
+    flex: 1;
+    margin-top: 20px;
+    max-height: 400px;
+    background-color: #000000;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    overflow: auto;
+    border: solid rgb(38, 38, 38);
+    font-family: "Playfair Display";
+  }

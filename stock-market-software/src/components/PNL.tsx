@@ -11,8 +11,8 @@ import Investment from "./Investment";
 
 interface PNLChartProps {
   investment: Investment;
-  selectedPeriod: "1D" | "1W" | "1M" | "3M" | "1Y" | "YTD";
-  onHover: (value: number | null) => void; // Add onHover prop
+  selectedPeriod: "Live" | "1D" | "1W" | "1M" | "3M" | "1Y" | "YTD"; // Include "Live"
+  onHover: (value: number | null) => void;
 }
 
 const PNLChart: React.FC<PNLChartProps> = ({
@@ -22,6 +22,14 @@ const PNLChart: React.FC<PNLChartProps> = ({
 }) => {
   const getChartData = () => {
     switch (selectedPeriod) {
+      case "Live":
+        return [
+          { time: "9:30 AM", value: investment.getIncrease("1D") * 0.2 },
+          { time: "11:00 AM", value: investment.getIncrease("1D") * 0.4 },
+          { time: "1:00 PM", value: investment.getIncrease("1D") * 0.6 },
+          { time: "3:00 PM", value: investment.getIncrease("1D") * 0.8 },
+          { time: "4:00 PM", value: investment.getIncrease("1D") },
+        ];
       case "1D":
         return [
           { time: "9:30 AM", value: investment.getIncrease("1D") * 0.2 },
@@ -70,6 +78,16 @@ const PNLChart: React.FC<PNLChartProps> = ({
     }
   };
 
+  // Fallback for "Live" since getIncrease may not support it
+  const getIncreaseForPeriod = (period: PNLChartProps["selectedPeriod"]) => {
+    if (period === "Live") {
+      return investment.getCurrentAmount(); // Or another fallback value
+    }
+    return investment.getIncrease(
+      period as "1D" | "1W" | "1M" | "3M" | "1Y" | "YTD"
+    );
+  };
+
   return (
     <div className="chart-wrapper">
       <div className="chart-container">
@@ -80,20 +98,18 @@ const PNLChart: React.FC<PNLChartProps> = ({
             <Tooltip
               content={({ payload }) => {
                 if (payload && payload.length > 0) {
-                  // Safely access the value from payload
                   const hoveredValue = payload[0]?.value;
-                  // Check if hoveredValue is a number and not NaN
                   if (
                     typeof hoveredValue === "number" &&
                     !isNaN(hoveredValue)
                   ) {
-                    onHover(hoveredValue); // Pass the valid number to onHover
+                    onHover(hoveredValue);
                   } else {
-                    onHover(null); // If not a valid number, pass null
+                    onHover(null);
                   }
-                  return <div>{payload[0]?.payload?.time}</div>; // Only show time in tooltip
+                  return <div>{payload[0]?.payload?.time}</div>;
                 }
-                onHover(null); // If payload is empty or invalid, set value to null
+                onHover(null);
                 return null;
               }}
             />
@@ -101,7 +117,7 @@ const PNLChart: React.FC<PNLChartProps> = ({
               type="monotone"
               dataKey="value"
               stroke={
-                investment.getIncrease(selectedPeriod) >= 0 ? "green" : "red"
+                getIncreaseForPeriod(selectedPeriod) >= 0 ? "green" : "red"
               }
               strokeWidth={2}
               dot={false}

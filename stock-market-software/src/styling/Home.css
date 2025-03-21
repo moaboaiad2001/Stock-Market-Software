@@ -54,8 +54,9 @@ h1, h2, h3 {
   border-bottom: 2px solid #4caf50;
 }
 
-.timeframe-buttons button:hover {
+.timeframe-buttons:hover button:hover {
   color: #1e88e5; /* Blue */
+  background-color: none !important;
 }
 
 /* Main Layout - PNL on Left (70%), Watchlist & News on Right (30%) */
@@ -215,18 +216,40 @@ min-width: 100px;
   background-color: #000000;
   padding: 0px;
   border-radius: 0px;
-  display: block; /* Stack content vertically */
+  display: flex; /* Stack content vertically */
+  flex-direction: row;
   gap: 10px;
   transition: background 0.3s ease-in-out;
   margin-bottom: 15px;
   min-height: relative; /* Fixed height for equal-length cards */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   border-bottom: 1px solid white;
 }
 
+/* News Image */
+.news-article img {
+  max-width: 70px; /* Ensures the image takes full width of the container */
+  max-height: 70px; /* Limits height to maintain aspect ratio */
+  object-fit: cover; /* Ensures the image covers the allocated space without distortion */
+  border-radius: 5px; /* Optional: Adds slight rounding for aesthetics */
+  display: flex; /* Ensures proper rendering */
+  margin-bottom: 2px; /* Space between image and text */
+}
 
+
+.news-meta {
+  font-size: 10px;
+  color: gray;
+  margin-top: 0px;
+  display: flex;
+}
+
+.writing {
+  display: flex;
+  flex-direction: column;
+}
 
 /* Hover effect */
 .news-article:hover {
@@ -236,7 +259,7 @@ min-width: 100px;
 
 /* News Title */
 .news-article-title a {
-  font-size: 12px; /* Smaller font size */
+  font-size: 14px; /* Smaller font size */
   font-weight: lighter;
   color: white;
   text-decoration: none;
@@ -531,6 +554,7 @@ min-width: 100px;
 /* Watchlist Container */
 
 .watchlist-container {
+  flex: 1;
   min-height: 400px;
   max-height: 400px;
   background-color: #000;
@@ -540,6 +564,8 @@ min-width: 100px;
   overflow: auto;
   border: 1px solid #262626;
   font-family: "Playfair Display";
+  max-width: 40%;
+  margin-right: auto;
 }
 
 .watchlist-title {
@@ -616,4 +642,31 @@ min-width: 100px;
 .dropdown-item:hover {
   background-color: #4caf50;
   color: white;
+}
+
+
+.second-section {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Heat Map*/
+
+.heat-map-container {
+  max-width: 50%;
+  width: 60%; /* Each container will take up half the width */
+  background-color: #000000; /* Dark theme */
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  flex: 1;
+  max-height: 400px; /* Ensure it doesn't exceed the PNL chart height */
+  background-color: #000000;
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  overflow: auto; /* Ensures scrolling if content overflows */
+  align-self: stretch; /* Ensures alignment with PNL container */
+  border: solid rgb(38, 38, 38);
+  font-family: "Playfair Display";
 }

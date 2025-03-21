@@ -8,6 +8,7 @@ import { StockOption } from "../types";
 import TrendingList from "./TrendingList";
 import Funds from "./Funds";
 import BiggestMovers from "./BiggestMovers";
+import HeatMap from "./HeatMap";
 import { LuListFilter } from "react-icons/lu";
 
 interface HomeProps {
@@ -19,6 +20,7 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
   const investment = new Investment(1000, 1100, 1050, 950, 900, 800, 1150);
 
   const timePeriods = [
+    { label: "Live", key: "Live" },
     { label: "1 Day", key: "1D" },
     { label: "1 Week", key: "1W" },
     { label: "1 Month", key: "1M" },
@@ -27,9 +29,9 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
     { label: "Year to Date", key: "YTD" },
   ];
 
-  const [selectedPeriod, setSelectedPeriod] = useState<
-    "1D" | "1W" | "1M" | "3M" | "1Y" | "YTD"
-  >("1D");
+  type TimePeriod = "Live" | "1D" | "1W" | "1M" | "3M" | "1Y" | "YTD";
+
+  const [selectedPeriod, setSelectedPeriod] = useState<TimePeriod>("Live");
 
   const [hoveredValue, setHoveredValue] = useState<number | null>(null);
 
@@ -56,6 +58,7 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
   const [container2, setContainer2] = useState("watchlist");
   const [container3, setContainer3] = useState("funds");
   const [container4, setContainer4] = useState("biggest-movers");
+  const [container5, setContainer5] = useState("heat-map");
 
   return (
     <div className="home-page">
@@ -88,7 +91,7 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
                   className={selectedPeriod === key ? "active" : ""}
                   onClick={() =>
                     setSelectedPeriod(
-                      key as "1D" | "1W" | "1M" | "3M" | "1Y" | "YTD"
+                      key as "Live" | "1D" | "1W" | "1M" | "3M" | "1Y" | "YTD"
                     )
                   }
                 >
@@ -106,6 +109,7 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
           >
             <option value="news">News</option>
             <option value="watchlist">Watchlist</option>
+            <option value="heat-map">Heat Map</option>
             <option value="funds">Funds</option>
             <option value="biggest-movers">Biggest Movers</option>
           </select>
@@ -113,6 +117,8 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
             <News />
           ) : container1 === "watchlist" ? (
             <Watchlist watchlist={watchlist} />
+          ) : container1 === "heat-map" ? (
+            <HeatMap />
           ) : container1 === "funds" ? (
             <Funds />
           ) : (
@@ -120,27 +126,58 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
           )}
         </div>
       </div>
-      <div className="watchlist-container">
-        <div className="watchlist-filter">
-          <select
-            value={container2}
-            onChange={(e) => setContainer2(e.target.value)}
-            className="container-dropdown watchlist-title"
-          >
-            <option value="news">News</option>
-            <option value="watchlist">Watchlist</option>
-            <option value="funds">Funds</option>
-            <option value="biggest-movers">Biggest Movers</option>
-          </select>
-          {container2 === "watchlist" ? (
-            <Watchlist watchlist={watchlist} />
-          ) : container2 === "news" ? (
-            <News />
-          ) : container2 === "funds" ? (
-            <Funds />
-          ) : (
-            <BiggestMovers />
-          )}
+      <div className="second-section">
+        <div className="watchlist-container">
+          <div className="watchlist-filter">
+            <select
+              value={container2}
+              onChange={(e) => setContainer2(e.target.value)}
+              className="container-dropdown watchlist-title"
+            >
+              <option value="news">News</option>
+              <option value="watchlist">Watchlist</option>
+              <option value="heat-map">Heat Map</option>
+              <option value="funds">Funds</option>
+              <option value="biggest-movers">Biggest Movers</option>
+            </select>
+            {container2 === "watchlist" ? (
+              <Watchlist watchlist={watchlist} />
+            ) : container2 === "news" ? (
+              <News />
+            ) : container2 === "heat-map" ? (
+              <HeatMap />
+            ) : container2 === "funds" ? (
+              <Funds />
+            ) : (
+              <BiggestMovers />
+            )}
+          </div>
+        </div>
+        <div className="heat-map-container">
+          <div className="watchlist-filter">
+            <select
+              value={container5}
+              onChange={(e) => setContainer5(e.target.value)}
+              className="container-dropdown watchlist-title"
+            >
+              <option value="news">News</option>
+              <option value="watchlist">Watchlist</option>
+              <option value="heat-map">Heat Map</option>
+              <option value="funds">Funds</option>
+              <option value="biggest-movers">Biggest Movers</option>
+            </select>
+            {container5 === "heat-map" ? (
+              <HeatMap />
+            ) : container5 === "watchlist" ? (
+              <Watchlist watchlist={watchlist} />
+            ) : container5 === "news" ? (
+              <News />
+            ) : container5 === "funds" ? (
+              <Funds />
+            ) : (
+              <BiggestMovers />
+            )}
+          </div>
         </div>
       </div>
       <div className="trending-list-container">
@@ -155,6 +192,7 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
           >
             <option value="funds">Funds</option>
             <option value="watchlist">Watchlist</option>
+            <option value="heat-map">Heat Map</option>
             <option value="biggest-movers">Biggest Movers</option>
             <option value="news">News</option>
           </select>
@@ -164,6 +202,8 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
             <News />
           ) : container3 === "biggest-movers" ? (
             <BiggestMovers />
+          ) : container3 === "heat-map" ? (
+            <HeatMap />
           ) : (
             <Watchlist watchlist={watchlist} />
           )}
@@ -176,6 +216,7 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
           >
             <option value="biggest-movers">Biggest Movers</option>
             <option value="watchlist">Watchlist</option>
+            <option value="heat-map">Heat Map</option>
             <option value="funds">Funds</option>
             <option value="news">News</option>
           </select>
@@ -185,6 +226,8 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
             <News />
           ) : container4 === "funds" ? (
             <Funds />
+          ) : container4 === "heat-map" ? (
+            <HeatMap />
           ) : (
             <Watchlist watchlist={watchlist} />
           )}

@@ -6,6 +6,9 @@ interface News {
   title: string;
   news: string;
   url: string;
+  image: string;
+  company: string;
+  date: string;
 }
 
 const News = () => {
@@ -15,13 +18,16 @@ const News = () => {
 
   const fetchNews = async () => {
     console.log("Fetching news with empty ticker...");
-    const newsData = await networkManager.getStockNews(""); // Empty string should work
+    const newsData = await networkManager.getStockNews(""); // Fetch news data
     setNewslist(
       newsData.map((news: any) => ({
         symbol: news.symbol,
         title: news.title,
         news: news.news,
         url: news.url || "#",
+        image: news.imageUrl || "https://placehold.co/600x400", // Default placeholder if no image
+        company: news.company || "Unknown Source", // Company name is set
+        date: news.date || "Unknown Date", // Date is set
       }))
     );
   };
@@ -38,11 +44,17 @@ const News = () => {
       <div className="news-list">
         {displayedNews.map((news, index) => (
           <div className="news-article" key={index}>
-            <h2 className="news-article-title">
-              <a href={news.url} target="_blank" rel="noopener noreferrer">
-                {news.title}
-              </a>
-            </h2>
+            <img src={news.image} className="news-article-image" />
+            <div className="writing">
+              <h2 className="news-article-title">
+                <a href={news.url} target="_blank" rel="noopener noreferrer">
+                  {news.title}
+                </a>
+              </h2>
+              <p className="news-meta">
+                {news.company} • {news.date}
+              </p>
+            </div>
           </div>
         ))}
       </div>
