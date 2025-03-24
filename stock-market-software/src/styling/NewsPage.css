@@ -42,7 +42,7 @@
   cursor: pointer;
   transition: background 0.3s ease-in-out;
   position: relative;
-  left: -10px; /* Move it slightly to the left */
+  left: -30px; /* Move it slightly to the left */
 }
 
 #dropdown-basic-button:hover {
@@ -97,10 +97,6 @@
   background-color: #45a049;
 }
 
-
-/* Improve filter button appearance */
-
-
 .news-page-filter:hover {
   background-color: #222;
 }
@@ -113,11 +109,13 @@
   flex-direction: row;
   gap: 10px;
   transition: background 0.3s ease-in-out;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   min-height: 50px;
   max-height: 50px;
   margin-left: 20px;
   margin-right: 20px;
+  padding-bottom: 10px;
+  border-bottom: 0.5px solid rgb(149, 149, 149);
 }
 
 .news-page-article img {
