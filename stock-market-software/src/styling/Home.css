@@ -251,12 +251,6 @@ min-width: 100px;
   flex-direction: column;
 }
 
-/* Hover effect */
-.news-article:hover {
-  background-color: #4caf50;
-  color: black;
-}
-
 /* News Title */
 .news-article-title a {
   font-size: 14px; /* Smaller font size */

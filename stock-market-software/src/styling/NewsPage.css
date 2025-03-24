@@ -1,0 +1,191 @@
+/* Center the title horizontally */
+.news-title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.news-page-title {
+  text-align: center;
+  flex-grow: 1;
+  color: white;
+  background-color: #000000;
+  font-size: 25px;
+  margin-bottom: 20px;
+  padding-bottom: 5px;
+  font-weight: bold;
+  font-family: "Playfair Display";
+}
+
+/* Position the filter halfway down the .news-dropdown container */
+.news-dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 40px;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Dropdown Button Styling */
+#dropdown-basic-button {
+  background-color: black;
+  border: none;
+  color: rgb(0, 247, 255);
+  font-size: 25px;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  position: relative;
+  left: -10px; /* Move it slightly to the left */
+}
+
+#dropdown-basic-button:hover {
+  background-color: #222;
+}
+
+/* Dropdown Menu Styling */
+.dropdown-menu {
+  background-color: rgb(83, 83, 83); /* Changed to gray */
+  color: white;
+  border: none;
+  min-width: 200px;
+}
+
+/* Dropdown Items */
+.dropdown-item {
+  padding: 10px;
+  font-size: 14px;
+  color: white;
+  transition: background 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  text-decoration: none;
+}
+
+
+/* Checkmark Icon */
+.checkmark-icon {
+  color: rgb(0, 247, 255);
+  margin-right: 8px;
+  font-size: 10px;
+}
+
+
+
+/* Load More button */
+.news-page-load-more-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: background 0.3s ease-in-out;
+}
+
+.news-page-load-more-button:hover {
+  background-color: #45a049;
+}
+
+
+/* Improve filter button appearance */
+
+
+.news-page-filter:hover {
+  background-color: #222;
+}
+
+.news-page-article {
+  background-color: #000000;
+  padding: 0px;
+  border-radius: 0px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  transition: background 0.3s ease-in-out;
+  margin-bottom: 15px;
+  min-height: 50px;
+  max-height: 50px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.news-page-article img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+  display: flex;
+  margin-bottom: 2px;
+}
+
+.news-page-meta {
+  font-size: 10px;
+  color: gray;
+  margin-top: 0px;
+  display: flex;
+}
+
+.news-page-writing {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.news-page-article-title a {
+  font-size: 15px;
+  font-weight: lighter;
+  color: white;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
+  box-orient: vertical;
+  justify-content: center;
+  position: relative;
+}
+
+.news-page-article-title a:hover {
+  text-decoration: underline;
+}
+
+
+.news-page-article-body {
+  font-size: 10px;
+  color: #ddd;
+  margin: 5px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.news-page-article-symbol {
+  font-size: 12px;
+  color: #ccc;
+  margin-top: 5px;
+}
+
+.news-page-load-more-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: background 0.3s ease-in-out;
+}
+

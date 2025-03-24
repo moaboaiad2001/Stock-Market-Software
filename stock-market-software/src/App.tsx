@@ -6,6 +6,7 @@ import Profile from "./components/Profile/Profile";
 import PersonalInformation from "./components/Profile/PersonalInformation";
 import Tranfsers from "./components/Profile/Tranfsers";
 import Rewards from "./components/Profile/Rewards";
+import NewsPage from "./components/NewsPage/NewsPage";
 import { StockOption } from "./types"; // Import StockOption
 
 const App: React.FC = () => {
@@ -32,6 +33,7 @@ const App: React.FC = () => {
         />
         <Route path="/profile" element={<Profile />} />
         <Route path="/personal-information" element={<PersonalInformation />} />
+        <Route path="/news" element={<NewsPage />} />
         <Route path="/transfers" element={<Tranfsers />} />
         <Route path="/rewards" element={<Rewards />} />
       </Routes>

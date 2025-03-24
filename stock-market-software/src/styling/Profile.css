@@ -153,7 +153,7 @@
   }
   
   /* Button styling */
-  button {
+  .edit-button {
     background-color: #007aff;
     color: white;
     border: none;
@@ -164,7 +164,7 @@
     transition: 0.3s;
   }
   
-  button:hover {
+  .edit-button:hover {
     background-color: #005bb5;
   }
   

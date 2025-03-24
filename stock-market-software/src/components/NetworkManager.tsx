@@ -166,7 +166,7 @@ export class NetworkManager {
           imageUrl: news.image_url || "",
           company: news.publisher?.name || "Unknown Source", // Use publisher.name as company
           date: news.published_utc
-            ? new Date(news.published_utc).toLocaleDateString()
+            ? new Date(news.published_utc).toLocaleString()
             : "Unknown Date", // Format published_utc date
         })
       );

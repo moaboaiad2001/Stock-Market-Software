@@ -24,7 +24,7 @@ const PersonalInformation = () => {
         <label>Email Address</label>
         <div className="info-content">
           <h3>{personalInformantion.email}</h3>
-          <button>Edit</button>
+          <button className="edit-button">Edit</button>
         </div>
       </div>
 
@@ -32,7 +32,7 @@ const PersonalInformation = () => {
         <label>Phone Number</label>
         <div className="info-content">
           <h3>{personalInformantion.phone}</h3>
-          <button>Edit</button>
+          <button className="edit-button">Edit</button>
         </div>
       </div>
 
@@ -40,7 +40,7 @@ const PersonalInformation = () => {
         <label>Address</label>
         <div className="info-content">
           <h3>{personalInformantion.address}</h3>
-          <button>Edit</button>
+          <button className="edit-button">Edit</button>
         </div>
       </div>
 
