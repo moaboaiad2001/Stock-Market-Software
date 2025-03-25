@@ -1,6 +1,7 @@
 export class NetworkManager {
   private finnhubApiKey = "csjs5u9r01qvrnd73fdgcsjs5u9r01qvrnd73fe0";
   private yahooFinanceApiKey = "T4YMtQfhAo7AHgA7z1uH06RhBeW5S8pI";
+  private marketauxApiKey = "JXFAi23iEQCymnk3UDhfO46UYW74eyjVveESESSZ";
 
   constructor() {}
 
@@ -175,4 +176,42 @@ export class NetworkManager {
       return [];
     }
   }
+
+  async getEgyptNews(page: number): Promise<News[]> {
+    const url = `https://api.marketaux.com/v1/news/all?countries=eg&limit=10&language=en&sort=published_at&sort_order=desc&api_token=${this.marketauxApiKey}&page=${page}`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        console.error(
+          `Error fetching Egypt news: ${response.status} - ${response.statusText}`
+        );
+        return [];
+      }
+      const newsData = await response.json();
+      return newsData.data.map((news: any) => ({
+        symbol: "EG News",
+        title: news.title || "No Title",
+        news: news.description || "No News Available",
+        url: news.url || "#",
+        imageUrl: news.image_url || "https://placehold.co/600x400",
+        company: news.source || "Unknown Source",
+        date: news.published_at
+          ? new Date(news.published_at).toLocaleString()
+          : "Unknown Date",
+      }));
+    } catch (error) {
+      console.error("Error fetching Egypt news:", error);
+      return [];
+    }
+  }
+}
+
+interface News {
+  symbol: string;
+  title: string;
+  news: string;
+  url: string;
+  image: string;
+  company: string;
+  date: string;
 }

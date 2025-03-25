@@ -24,13 +24,20 @@ const NewsPage = () => {
 
   useEffect(() => {
     const fetchNews = async () => {
-      const newsData = await networkManager.getStockNews("");
+      let newsData: any[] = [];
+      if (selectedFilter === "US News" || selectedFilter === "Both") {
+        newsData = await networkManager.getStockNews("");
+      }
+      if (selectedFilter === "Egypt News" || selectedFilter === "Both") {
+        const egyptNews = await networkManager.getEgyptNews(page);
+        newsData = [...newsData, ...egyptNews];
+      }
       setNewslist(
         newsData.map(
           (news: any): News => ({
             symbol: news.symbol || "N/A",
             title: news.title || "No Title",
-            news: news.news || "No News Available",
+            news: news.description || "No News Available",
             url: news.url || "#",
             image: news.imageUrl || "https://placehold.co/600x400",
             company: news.company || "Unknown Source",
@@ -40,13 +47,14 @@ const NewsPage = () => {
       );
     };
     fetchNews();
-  }, []);
+  }, [selectedFilter, page]);
 
   const newsPerPage = 10;
   const displayedNews = newslist.slice(0, page * newsPerPage);
 
   const handleSelect = (filter: string) => {
     setSelectedFilter(filter);
+    setPage(1);
   };
 
   return (
