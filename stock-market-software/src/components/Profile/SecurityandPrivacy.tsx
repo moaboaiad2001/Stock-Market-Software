@@ -1,8 +1,11 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
 import Switch, { SwitchProps } from "@mui/material/Switch";
+import { useTranslation } from "react-i18next";
 
 const SecurityandPrivacy = () => {
+  const { t } = useTranslation();
+
   const label = { inputProps: { "aria-label": "Size switch demo" } };
 
   const IOSSwitch = styled((props: SwitchProps) => (
@@ -71,41 +74,41 @@ const SecurityandPrivacy = () => {
 
   return (
     <div className="personal-info-page">
-      <h1 className="personal-info-title">Security and Privacy</h1>
+      <h1 className="personal-info-title">{t("securityAndPrivacy")}</h1>
 
       <div className="info-section">
-        <label>Password</label>
+        <label>{t("password")}</label>
         <div className="info-content">
-          <h3>Change Password</h3>
+          <h3>{t("changePassword")}</h3>
           <button className="edit-button">{">"}</button>
         </div>
       </div>
 
       <div className="info-section">
-        <label>Permissions</label>
+        <label>{t("permissions")}</label>
         <div className="info-content">
-          <h3>Allow Location Sharing</h3>
+          <h3>{t("allowLocationSharing")}</h3>
           <IOSSwitch />
         </div>
       </div>
 
       <div className="info-section">
-        <label>Authentication</label>
+        <label>{t("authentication")}</label>
         <div className="info-content">
-          <h3>Enable Two-Factor Authentication</h3>
+          <h3>{t("enableTwoFactorAuthentication")}</h3>
           <IOSSwitch />
         </div>
       </div>
 
       <div className="info-section">
-        <label>Data Privacy</label>
+        <label>{t("dataPrivacy")}</label>
         <div className="info-content">
-          <h3>Allow Data Sharing</h3>
+          <h3>{t("allowDataSharing")}</h3>
           <IOSSwitch />
         </div>
       </div>
 
-      <button className="save-button">Save Changes</button>
+      <button className="save-button">{t("saveChanges")}</button>
     </div>
   );
 };

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { NetworkManager } from "./NetworkManager";
+import { useTranslation } from "react-i18next";
 
 const BiggestMovers = () => {
+  const { t } = useTranslation();
+
   const [gainers, setGainers] = useState<
     { symbol: string; name: string; price: number; percentChange: number }[]
   >([]);
@@ -38,7 +41,7 @@ const BiggestMovers = () => {
     <div>
       <div className="movers-section">
         <div className="movers-container left">
-          <h3 className="gainers-title">Top Gainers</h3>
+          <h3 className="gainers-title">{t("topGainers")}</h3>
           {gainers.map((stock) => (
             <div className="movers-stock-container" key={stock.symbol}>
               <h3>
@@ -51,7 +54,7 @@ const BiggestMovers = () => {
           ))}
         </div>
         <div className="movers-container right">
-          <h3 className="losers-title">Top Losers</h3>
+          <h3 className="losers-title">{t("topLosers")}</h3>
           {losers.map((stock) => (
             <div className="movers-stock-container-losers" key={stock.symbol}>
               <h3>

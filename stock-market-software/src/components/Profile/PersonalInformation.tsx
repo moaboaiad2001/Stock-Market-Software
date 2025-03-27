@@ -1,8 +1,11 @@
 import React from "react";
 import "../../styling/Profile.css";
+import { useTranslation } from "react-i18next";
 
 const PersonalInformation = () => {
-  const personalInformantion = {
+  const { t } = useTranslation();
+
+  const personalInformation = {
     name: "Mohamed Abo Aiad",
     email: "mostet2001@gmail.com",
     phone: "+1 (416)-700-2962",
@@ -11,40 +14,40 @@ const PersonalInformation = () => {
 
   return (
     <div className="personal-info-page">
-      <h1 className="personal-info-title">Personal Information</h1>
+      <h1 className="personal-info-title">{t("personalInformation")}</h1>
 
       <div className="info-section">
-        <label>Full Name</label>
+        <label>{t("fullName")}</label>
         <div className="info-content">
-          <h3>{personalInformantion.name}</h3>
+          <h3>{personalInformation.name}</h3>
         </div>
       </div>
 
       <div className="info-section">
-        <label>Email Address</label>
+        <label>{t("emailAddress")}</label>
         <div className="info-content">
-          <h3>{personalInformantion.email}</h3>
-          <button className="edit-button">Edit</button>
+          <h3>{personalInformation.email}</h3>
+          <button className="edit-button">{t("edit")}</button>
         </div>
       </div>
 
       <div className="info-section">
-        <label>Phone Number</label>
+        <label>{t("phoneNumber")}</label>
         <div className="info-content">
-          <h3>{personalInformantion.phone}</h3>
-          <button className="edit-button">Edit</button>
+          <h3>{personalInformation.phone}</h3>
+          <button className="edit-button">{t("edit")}</button>
         </div>
       </div>
 
       <div className="info-section">
-        <label>Address</label>
+        <label>{t("address")}</label>
         <div className="info-content">
-          <h3>{personalInformantion.address}</h3>
-          <button className="edit-button">Edit</button>
+          <h3>{personalInformation.address}</h3>
+          <button className="edit-button">{t("edit")}</button>
         </div>
       </div>
 
-      <button className="save-button">Save Changes</button>
+      <button className="save-button">{t("saveChanges")}</button>
     </div>
   );
 };

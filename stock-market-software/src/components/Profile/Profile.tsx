@@ -82,7 +82,7 @@ const Profile = () => {
             <h2>{t("rewards")}</h2>
           </div>
         </Link>
-        <Link to="/reports" className="profile-link">
+        <Link to="/reports-and-statements" className="profile-link">
           <div className="profile-card">
             <span className="icon">
               <IoDocumentText />
@@ -90,7 +90,7 @@ const Profile = () => {
             <h2>{t("reportsAndStatements")}</h2>
           </div>
         </Link>
-        <Link to="/security" className="profile-link">
+        <Link to="/security-and-privacy" className="profile-link">
           <div className="profile-card">
             <span className="icon">
               <SiSpringsecurity />

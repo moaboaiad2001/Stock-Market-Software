@@ -12,8 +12,11 @@ import {
   AiFillApi,
   AiTwotoneHourglass,
 } from "react-icons/ai";
+import { useTranslation } from "react-i18next";
 
 const TrendingList = () => {
+  const { t } = useTranslation();
+
   type Category = {
     Title: string;
     Description: string;
@@ -22,66 +25,65 @@ const TrendingList = () => {
 
   const trendingCategories: { [key: number]: Category } = {
     0: {
-      Title: "100 Most Popular",
-      Description:
-        "Discover the most commonly held stocks and ETFs among users.",
+      Title: t("popularStocks"),
+      Description: t("popularDescription"),
       Icon: <AiOutlineArrowUp />,
     },
     1: {
-      Title: "Top Gainers",
-      Description: "Explore stocks with the biggest gains today.",
+      Title: t("topGainers"),
+      Description: t("topGainersDescription"),
       Icon: <AiOutlineLineChart />,
     },
     2: {
-      Title: "IPO Access",
-      Description: "Get access to upcoming IPOs and new opportunities.",
+      Title: t("ipoAccess"),
+      Description: t("ipoDescription"),
       Icon: <AiOutlineRocket />,
     },
     3: {
-      Title: "Top Losers",
-      Description: "Explore stocks with the biggest losses today.",
+      Title: t("topLosers"),
+      Description: t("topLosersDescription"),
       Icon: <AiOutlineFall />,
     },
     4: {
-      Title: "Technology",
-      Description: "Top-performing tech stocks.",
+      Title: t("technology"),
+      Description: t("techDescription"),
       Icon: <AiFillMerge />,
     },
     5: {
-      Title: "ETFs",
-      Description: "Explore top-performing ETFs.",
+      Title: t("etfs"),
+      Description: t("etfDescription"),
       Icon: <AiFillProfile />,
     },
     6: {
-      Title: "Cannabis",
-      Description: "Discover trending stocks in the cannabis sector.",
+      Title: t("cannabis"),
+      Description: t("cannabisDescription"),
       Icon: <AiFillFire />,
     },
     7: {
-      Title: "Pharma",
-      Description: "Explore the pharmaceutical industry’s top stocks.",
+      Title: t("pharma"),
+      Description: t("pharmaDescription"),
       Icon: <AiTwotoneExperiment />,
     },
     8: {
-      Title: "Upcoming Earnings",
-      Description: "Companies reporting earnings in the next 2 weeks.",
+      Title: t("upcomingEarnings"),
+      Description: t("earningsDescription"),
       Icon: <AiFillClockCircle />,
     },
     9: {
-      Title: "Energy",
-      Description: "Trending energy sector stocks.",
+      Title: t("energy"),
+      Description: t("energyDescription"),
       Icon: <AiFillApi />,
     },
     10: {
-      Title: "Daily Movers",
-      Description: "Discover stocks with significant price changes today.",
+      Title: t("dailyMovers"),
+      Description: t("dailyMoversDescription"),
       Icon: <AiTwotoneHourglass />,
     },
   };
 
   return (
     <div>
-      <h2 className="trending-list-title">Trending Lists</h2>
+      <h2 className="trending-list-title">{t("trendingLists")}</h2>
       <ul className="trending-categories">
         {Object.values(trendingCategories).map((category, index) => (
           <li key={index}>

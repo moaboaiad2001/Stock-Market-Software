@@ -92,7 +92,7 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
 
   return (
     <nav className="navbar">
-      <div className="navbar-logo">Forsa</div>
+      <div className="navbar-logo">{t("forsa")}</div>
       <div className="navbar-actions">
         <Select
           className="navbar-search search-dropdown"

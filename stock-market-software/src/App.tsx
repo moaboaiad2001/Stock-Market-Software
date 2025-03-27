@@ -48,7 +48,10 @@ const App: React.FC = () => {
           <Route path="/news" element={<NewsPage />} />
           <Route path="/transfers" element={<Tranfsers />} />
           <Route path="/rewards" element={<Rewards />} />
-          <Route path="/securityandprivacy" element={<SecurityandPrivacy />} />
+          <Route
+            path="/security-and-privacy"
+            element={<SecurityandPrivacy />}
+          />
         </Routes>
       </Router>
     </I18nextProvider>

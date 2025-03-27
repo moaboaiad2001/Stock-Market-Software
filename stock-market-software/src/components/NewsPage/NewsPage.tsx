@@ -5,6 +5,7 @@ import "../../styling/NewsPage.css";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { FaCheck } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 interface News {
   symbol: string;
@@ -17,6 +18,8 @@ interface News {
 }
 
 const NewsPage = () => {
+  const { t } = useTranslation();
+
   const [newslist, setNewslist] = useState<News[]>([]);
   const [page, setPage] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState("US News");
@@ -36,12 +39,12 @@ const NewsPage = () => {
         newsData.map(
           (news: any): News => ({
             symbol: news.symbol || "N/A",
-            title: news.title || "No Title",
-            news: news.description || "No News Available",
+            title: news.title || t("noTitle"),
+            news: news.description || t("noNewsAvailable"),
             url: news.url || "#",
             image: news.imageUrl || "https://placehold.co/600x400",
-            company: news.company || "Unknown Source",
-            date: news.date || "Unknown Date",
+            company: news.company || t("unknownSource"),
+            date: news.date || t("unknownDate"),
           })
         )
       );
@@ -60,25 +63,25 @@ const NewsPage = () => {
   return (
     <div>
       <div className="news-title-container">
-        <h1 className="news-page-title">Latest Market News</h1>
+        <h1 className="news-page-title">{t("newsTitle")}</h1>
         <DropdownButton
           id="dropdown-basic-button"
           title={<LuListFilter className="news-page-filter" />}
         >
           <Dropdown.Item onClick={() => handleSelect("US News")}>
-            US News{" "}
+            {t("usNews")}{" "}
             {selectedFilter === "US News" && (
               <FaCheck className="checkmark-icon" />
             )}
           </Dropdown.Item>
           <Dropdown.Item onClick={() => handleSelect("Egypt News")}>
-            Egyptian News{" "}
+            {t("egyptNews")}{" "}
             {selectedFilter === "Egypt News" && (
               <FaCheck className="checkmark-icon" />
             )}
           </Dropdown.Item>
           <Dropdown.Item onClick={() => handleSelect("Both")}>
-            Both{" "}
+            {t("bothNews")}{" "}
             {selectedFilter === "Both" && (
               <FaCheck className="checkmark-icon" />
             )}
@@ -91,7 +94,7 @@ const NewsPage = () => {
             <img
               src={news.image}
               className="news-page-article-image"
-              alt="News"
+              alt={t("newsTitle")}
             />
             <div className="news-page-writing">
               <h2 className="news-page-article-title">
@@ -111,7 +114,7 @@ const NewsPage = () => {
           onClick={() => setPage(page + 1)}
           className="news-page-load-more-button"
         >
-          Load More
+          {t("loadMore")}
         </button>
       )}
     </div>
