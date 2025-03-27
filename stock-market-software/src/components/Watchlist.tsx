@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { StockOption } from "../types";
 import { LuListFilter } from "react-icons/lu";
+import { useTranslation } from "react-i18next"; // Importing useTranslation
 import "../styling/Home.css";
 
 interface WatchlistProps {
@@ -8,7 +9,14 @@ interface WatchlistProps {
 }
 
 const Watchlist: React.FC<WatchlistProps> = ({ watchlist = [] }) => {
-  const watchlistFilter = ["Option 1", "Option 2", "Option 3", "Option 4"];
+  const { t } = useTranslation(); // Destructure t for translations
+  const watchlistFilter = [
+    t("option1"), // Added translation for options
+    t("option2"),
+    t("option3"),
+    t("option4"),
+  ];
+
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -57,7 +65,7 @@ const Watchlist: React.FC<WatchlistProps> = ({ watchlist = [] }) => {
             </li>
           ))
         ) : (
-          <p>No stocks in your watchlist</p>
+          <p>{t("noStocksInWatchlist")}</p> // Translated string for no stocks
         )}
       </ul>
     </div>

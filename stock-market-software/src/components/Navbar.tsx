@@ -4,8 +4,8 @@ import { NetworkManager } from "./NetworkManager";
 import "../styling/Home.css";
 import { Link } from "react-router-dom";
 import { IoPerson } from "react-icons/io5";
-import { FaCheck } from "react-icons/fa";
-import { FaPlus } from "react-icons/fa";
+import { FaCheck, FaPlus } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 interface StockOption {
   value: string;
@@ -20,6 +20,7 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
+  const { t, i18n } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
   const [stockOptions, setStockOptions] = useState<StockOption[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -59,6 +60,13 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
     const { data, innerRef, innerProps } = props;
     const isWatched = watchlist.some((s) => s.value === data.value); // Using the passed watchlist prop
 
+    const toggleLanguage = () => {
+      const newLang = i18n.language === "en" ? "ar" : "en";
+      console.log(`Switching language to ${newLang}`); // Debugging line
+      i18n.changeLanguage(newLang);
+      localStorage.setItem("language", newLang); // Save to localStorage
+    };
+
     return (
       <div ref={innerRef} {...innerProps} className="stock-option">
         <div className="stock-details">
@@ -91,22 +99,20 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
           styles={{ control: (provided) => ({ ...provided, width: "600px" }) }}
           options={stockOptions}
           onInputChange={(inputValue) => setSearchTerm(inputValue)}
-          placeholder="Search Stocks"
+          placeholder={t("searchStocks")}
           isLoading={isLoading}
           isClearable
           components={{ Option: CustomOption }}
         />
       </div>
       <div className="navbar-links">
-        <Link to="/">Home</Link>
-        <Link to="/portfolio">Portfolio</Link>{" "}
-        {/* ✅ Corrected Portfolio Link */}
-        <Link to="/markets">Markets</Link>
-        <Link to="/news">News</Link>
+        <Link to="/">{t("home")}</Link>
+        <Link to="/portfolio">{t("portfolio")}</Link>{" "}
+        <Link to="/markets">{t("markets")}</Link>
+        <Link to="/news">{t("news")}</Link>
         <Link to="/profile" className="navbar-profile">
           <IoPerson />
         </Link>{" "}
-        {/* ✅ Corrected Profile Link */}
       </div>
     </nav>
   );
