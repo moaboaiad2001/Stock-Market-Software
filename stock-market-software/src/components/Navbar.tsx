@@ -12,11 +12,12 @@ interface StockOption {
   label: string;
   price: number;
   change: number;
+  logo_url?: string; // Make logoUrl optional
 }
 
 interface NavbarProps {
-  watchlist: StockOption[]; // Add watchlist as a prop
-  toggleWatchlist: (stock: StockOption) => void; // Add toggleWatchlist as a prop
+  watchlist: StockOption[];
+  toggleWatchlist: (stock: StockOption) => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
@@ -37,12 +38,14 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
       setIsLoading(true);
       try {
         const stocks = await networkManager.fetchStockSymbols(searchTerm);
+        console.log(stocks); // Log to inspect the data
         setStockOptions(
           stocks.map((stock) => ({
             value: stock.symbol,
             label: `${stock.name} (${stock.symbol})`,
             price: stock.price,
             change: stock.percentChange,
+            logo_url: stock.logo_url, // Ensure logoUrl is part of the stock data
           }))
         );
       } catch (error) {
@@ -58,30 +61,41 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
 
   const CustomOption = (props: any) => {
     const { data, innerRef, innerProps } = props;
-    const isWatched = watchlist.some((s) => s.value === data.value); // Using the passed watchlist prop
-
-    const toggleLanguage = () => {
-      const newLang = i18n.language === "en" ? "ar" : "en";
-      console.log(`Switching language to ${newLang}`); // Debugging line
-      i18n.changeLanguage(newLang);
-      localStorage.setItem("language", newLang); // Save to localStorage
-    };
+    const isWatched = watchlist.some((s) => s.value === data.value);
 
     return (
       <div ref={innerRef} {...innerProps} className="stock-option">
-        <div className="stock-details">
-          <span>
-            <strong>{data.label}</strong> - ${data.price.toFixed(2)}
-          </span>
-          <span className={data.change >= 0 ? "positive" : "negative"}>
-            ({data.change.toFixed(2)}%)
+        <div className="stock-info">
+          {data.logo_url && (
+            <img
+              src={data.logo_url}
+              alt={`${data.label} logo`}
+              className="stock-logo"
+            />
+          )}
+          <div className="stock-symbol">{data.value}</div>
+          <div className="stock-ticker">
+            <span className="company-name">{data.label}</span>
+          </div>
+        </div>
+        <div className="stock-chart">
+          <span>Mini Chart Placeholder</span>
+        </div>
+        <div className="stock-price">
+          <span className="price">${data.price.toFixed(2)}</span>
+          <span
+            className={`percent-change ${
+              data.change >= 0 ? "positive" : "negative"
+            }`}
+          >
+            {data.change.toFixed(2)}%
           </span>
         </div>
         <button
           className="add-to-watchlist-button"
           onClick={(e) => {
-            e.stopPropagation(); // Prevent stock selection when clicking button
-            toggleWatchlist(data); // Call toggleWatchlist here
+            e.stopPropagation();
+            toggleWatchlist(data);
           }}
         >
           {isWatched ? <FaCheck /> : <FaPlus />}
@@ -107,12 +121,12 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
       </div>
       <div className="navbar-links">
         <Link to="/">{t("home")}</Link>
-        <Link to="/portfolio">{t("portfolio")}</Link>{" "}
+        <Link to="/portfolio">{t("portfolio")}</Link>
         <Link to="/markets">{t("markets")}</Link>
         <Link to="/news">{t("news")}</Link>
         <Link to="/profile" className="navbar-profile">
           <IoPerson />
-        </Link>{" "}
+        </Link>
       </div>
     </nav>
   );

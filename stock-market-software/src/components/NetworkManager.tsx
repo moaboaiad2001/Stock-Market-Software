@@ -5,10 +5,14 @@ export class NetworkManager {
 
   constructor() {}
 
-  async fetchStockSymbols(
-    query: string
-  ): Promise<
-    { symbol: string; name: string; price: number; percentChange: number }[]
+  async fetchStockSymbols(query: string): Promise<
+    {
+      symbol: string;
+      name: string;
+      price: number;
+      percentChange: number;
+      logo_url?: string;
+    }[]
   > {
     if (!query) return [];
     const url = `https://api.polygon.io/v3/reference/tickers?search=${query}&active=true&limit=20&apiKey=${this.yahooFinanceApiKey}`;
@@ -24,6 +28,7 @@ export class NetworkManager {
             name: ticker.name,
             price: stockData.price,
             percentChange: stockData.percentChange || 0,
+            logo_url: stockData.logo_url || "",
           };
         });
         return await Promise.all(stockPromises);
@@ -35,11 +40,14 @@ export class NetworkManager {
     }
   }
 
-  async getStockData(
-    symbol: string
-  ): Promise<{ name?: string; price: number; percentChange?: number }> {
+  async getStockData(symbol: string): Promise<{
+    name?: string;
+    price: number;
+    percentChange?: number;
+    logo_url?: string;
+  }> {
     const quoteUrl = `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${this.finnhubApiKey}`;
-    const profileUrl = `https://finnhub.io/api/v1/stock/profile2?symbol=${symbol}&token=${this.finnhubApiKey}`;
+    const profileUrl = `https://api.polygon.io/v3/reference/tickers/${symbol}?apiKey=${this.yahooFinanceApiKey}`;
 
     try {
       const [quoteResponse, profileResponse] = await Promise.all([
@@ -51,13 +59,14 @@ export class NetworkManager {
       const profileData = await profileResponse.json();
 
       return {
-        name: profileData.name || symbol, // Fetching the company name
+        name: profileData.results?.name || symbol,
         price: quoteData.c || 0,
         percentChange: quoteData.dp || 0,
+        logo_url: profileData.results?.branding?.logo_url || "", // ✅ Corrected to logo_url
       };
     } catch (error) {
       console.error(`Error fetching data for ${symbol}:`, error);
-      return { price: 0 };
+      return { price: 0, logo_url: "" }; // Prevent errors if no logo is found
     }
   }
 
@@ -101,6 +110,7 @@ export class NetworkManager {
       name: string;
       price: number;
       percentChange: number;
+      logo_url?: string;
     }[]
   ): Promise<
     { symbol: string; name: string; price: number; percentChange: number }[]

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import NetworkManager from "./NetworkManager";
+import { NetworkManager } from "./NetworkManager";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 
