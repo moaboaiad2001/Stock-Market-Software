@@ -1,10 +1,37 @@
 export class NetworkManager {
-  private finnhubApiKey = "csjs5u9r01qvrnd73fdgcsjs5u9r01qvrnd73fe0";
+  private finnhubApiKey = "csjs5u9r01qvrnd73fdgcs5u9r01qvrnd73fe0";
   private yahooFinanceApiKey = "T4YMtQfhAo7AHgA7z1uH06RhBeW5S8pI";
   private marketauxApiKey = "JXFAi23iEQCymnk3UDhfO46UYW74eyjVveESESSZ";
+  private logoCache: { [key: string]: string } = {}; // Cache for logos
 
   constructor() {}
 
+  // Fetch the logo URL and cache it
+  async fetchLogo(ticker: string): Promise<string | null> {
+    // Step 1: Check if logo is already cached
+    if (this.logoCache[ticker]) {
+      return this.logoCache[ticker];
+    }
+
+    // Step 2: Fetch ticker details to get the branding information
+    const url = `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=${this.yahooFinanceApiKey}`;
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      const logoUrl = data.results?.branding?.icon_url;
+
+      if (logoUrl) {
+        this.logoCache[ticker] = logoUrl; // Cache the logo URL
+        return logoUrl;
+      }
+      return null; // No logo found
+    } catch (error) {
+      console.error(`Error fetching logo for ${ticker}:`, error);
+      return null;
+    }
+  }
+
+  // Fetch stock symbols and their details
   async fetchStockSymbols(query: string): Promise<
     {
       symbol: string;
@@ -23,12 +50,13 @@ export class NetworkManager {
       if (data?.results) {
         const stockPromises = data.results.map(async (ticker: any) => {
           const stockData = await this.getStockData(ticker.ticker);
+          const logo_url = await this.fetchLogo(ticker.ticker); // Fetch logo URL
           return {
             symbol: ticker.ticker,
             name: ticker.name,
             price: stockData.price,
             percentChange: stockData.percentChange || 0,
-            logo_url: stockData.logo_url || "",
+            logo_url: logo_url || "", // Add logo_url if available
           };
         });
         return await Promise.all(stockPromises);
@@ -40,6 +68,7 @@ export class NetworkManager {
     }
   }
 
+  // Fetch stock data (price and change)
   async getStockData(symbol: string): Promise<{
     name?: string;
     price: number;
@@ -62,7 +91,7 @@ export class NetworkManager {
         name: profileData.results?.name || symbol,
         price: quoteData.c || 0,
         percentChange: quoteData.dp || 0,
-        logo_url: profileData.results?.branding?.logo_url || "", // ✅ Corrected to logo_url
+        logo_url: profileData.results?.branding?.icon_url || "", // Return the logo URL
       };
     } catch (error) {
       console.error(`Error fetching data for ${symbol}:`, error);
@@ -70,6 +99,7 @@ export class NetworkManager {
     }
   }
 
+  // Fetch gainers and losers
   async fetchGainersAndLosers(): Promise<{ gainers: any[]; losers: any[] }> {
     const url = `https://finnhub.io/api/v1/stock/symbol?exchange=US&token=${this.finnhubApiKey}`;
     try {
@@ -103,6 +133,7 @@ export class NetworkManager {
     }
   }
 
+  // Add stock to list
   async addStockToList(
     symbol: string,
     stockList: {
@@ -125,6 +156,7 @@ export class NetworkManager {
     return [...stockList, stockInfo];
   }
 
+  // Fetch stock news
   async getStockNews(ticker: string): Promise<
     {
       symbol: string;
@@ -187,6 +219,7 @@ export class NetworkManager {
     }
   }
 
+  // Fetch Egypt news
   async getEgyptNews(page: number): Promise<News[]> {
     const url = `https://api.marketaux.com/v1/news/all?countries=eg&limit=10&language=en&sort=published_at&sort_order=desc&api_token=${this.marketauxApiKey}&page=${page}`;
     try {

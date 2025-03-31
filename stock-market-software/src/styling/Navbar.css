@@ -91,6 +91,10 @@
   color: #888;
 }
 
+.stock-logo {
+  font-size: 20px;
+}
+
 .stock-chart {
   flex: 1;
   display: flex;

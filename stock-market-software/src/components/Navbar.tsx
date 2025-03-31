@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
-import { NetworkManager } from "./NetworkManager";
+import { NetworkManagerTrial } from "../NetworkManagerTrial";
 import "../styling/Home.css";
 import { Link } from "react-router-dom";
 import { IoPerson } from "react-icons/io5";
@@ -12,7 +12,7 @@ interface StockOption {
   label: string;
   price: number;
   change: number;
-  logo_url?: string; // Make logoUrl optional
+  logoUrl?: string;
 }
 
 interface NavbarProps {
@@ -22,42 +22,46 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
   const { t, i18n } = useTranslation();
-  const [searchTerm, setSearchTerm] = useState("");
   const [stockOptions, setStockOptions] = useState<StockOption[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const networkManager = new NetworkManager();
+  const networkManager = new NetworkManagerTrial(
+    "T4YMtQfhAo7AHgA7z1uH06RhBeW5S8pI"
+  );
 
   useEffect(() => {
-    if (!searchTerm) {
-      setStockOptions([]);
-      return;
-    }
-
     const fetchStocks = async () => {
       setIsLoading(true);
       try {
-        const stocks = await networkManager.fetchStockSymbols(searchTerm);
-        console.log(stocks); // Log to inspect the data
-        setStockOptions(
-          stocks.map((stock) => ({
-            value: stock.symbol,
-            label: `${stock.name} (${stock.symbol})`,
-            price: stock.price,
-            change: stock.percentChange,
-            logo_url: stock.logo_url, // Ensure logoUrl is part of the stock data
-          }))
+        // Manually define the five stocks
+        const stocksToFetch = ["AAPL", "MSFT", "GOOGL", "TSLA", "AMZN"];
+
+        const stocksWithDetails = await Promise.all(
+          stocksToFetch.map(async (ticker) => {
+            const stock = await networkManager.fetchStockData(ticker);
+            const logo = await networkManager.fetchLogo(ticker);
+            console.log(`THIS IS LOGO:  ${logo} ${stock}`);
+            return {
+              value: ticker,
+              label: `${ticker}`,
+              price: stock.price || 0,
+              change: stock.change || 0,
+              logoUrl: logo || "green",
+            };
+          })
         );
+
+        setStockOptions(stocksWithDetails);
       } catch (error) {
         console.error("Error fetching stock data:", error);
+        setStockOptions([]);
       } finally {
         setIsLoading(false);
       }
     };
 
-    const timeoutId = setTimeout(fetchStocks, 500);
-    return () => clearTimeout(timeoutId);
-  }, [searchTerm]);
+    fetchStocks();
+  }, []);
 
   const CustomOption = (props: any) => {
     const { data, innerRef, innerProps } = props;
@@ -66,20 +70,19 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
     return (
       <div ref={innerRef} {...innerProps} className="stock-option">
         <div className="stock-info">
-          {data.logo_url && (
+          {data.logoUrl ? (
             <img
-              src={data.logo_url}
+              src={data.logoUrl}
               alt={`${data.label} logo`}
               className="stock-logo"
             />
+          ) : (
+            <div className="stock-placeholder-logo">N/A</div>
           )}
           <div className="stock-symbol">{data.value}</div>
           <div className="stock-ticker">
             <span className="company-name">{data.label}</span>
           </div>
-        </div>
-        <div className="stock-chart">
-          <span>Mini Chart Placeholder</span>
         </div>
         <div className="stock-price">
           <span className="price">${data.price.toFixed(2)}</span>
@@ -112,8 +115,6 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
           className="navbar-search search-dropdown"
           styles={{ control: (provided) => ({ ...provided, width: "600px" }) }}
           options={stockOptions}
-          onInputChange={(inputValue) => setSearchTerm(inputValue)}
-          placeholder={t("searchStocks")}
           isLoading={isLoading}
           isClearable
           components={{ Option: CustomOption }}
