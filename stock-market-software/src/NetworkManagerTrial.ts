@@ -1,7 +1,6 @@
 import { restClient } from '@polygon.io/client-js';
 
 export class NetworkManagerTrial {
-  private logoCache: { [key: string]: string } = {};
   private polygonApiKey: string;
 
   constructor(polygonApiKey: string) {
@@ -34,30 +33,43 @@ export class NetworkManagerTrial {
   
 
   // Function to fetch stock data including price and percent change
-  public async fetchStockData(symbol: string): Promise<{ price: number; change: number }> {
+  public async fetchStockData(): Promise<{ [key: string]: { price: number; change: number } }> {
+    const symbols = ['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'AMZN'];
+    const results: { [key: string]: { price: number; change: number } } = {};
+
     try {
-      const response = await restClient(this.polygonApiKey).stocks.previousClose(symbol, { adjusted: true });
-      if (!response || !response.results || response.results.length === 0) {
-        console.warn(`No price data available for ${symbol}`);
-        return { price: 0, change: 0 };
-      }
-      const { c: price, d: change } = response.results[0];
-      return { price: price || 0, change: change || 0 };
-    } catch (error) {
-      console.error(`Error fetching stock data for ${symbol}:`, error);
-      return { price: 0, change: 0 };
+        for (const symbol of symbols) {
+            const data = await restClient(this.polygonApiKey).stocks.dailyOpenClose(
+                symbol,
+                "2025-03-20",
+                { adjusted: "true" }
+            );
+
+            if (typeof data.open !== "number" || typeof data.close !== "number") {
+                console.warn(`Skipping ${symbol} due to invalid data: open=${data.open}, close=${data.close}`);
+                continue;
+            }
+
+            results[symbol] = {
+                price: data.close,
+                change: data.open - data.close
+            };
+        }
+    } catch (e) {
+        console.error("An error happened while fetching stock data:", e);
+        throw new Error("Failed to fetch stock data");
     }
-  }
+
+    return results;
+}
+
+
+
+
 
 
   public async fetchLogo(symbol: string): Promise<string | undefined> {
-    console.log(`Fetching logo for symbol: ${symbol}`); // Log symbol being processed
-  
-    // Check if logo is cached
-    if (this.logoCache[symbol]) {
-      console.log(`Logo for symbol ${symbol} found in cache: ${this.logoCache[symbol]}`);
-      return this.logoCache[symbol]; // Return the cached logo if available
-    }
+    console.log(`Fetching logo for symbol: ${symbol}`); 
   
     try {
       console.log(`Making API request for symbol: ${symbol}`);
@@ -69,7 +81,6 @@ export class NetworkManagerTrial {
       if (response?.results?.branding?.icon_url) {
         const logoUrl = response.results.branding.icon_url;
         console.log(`Logo URL found: ${logoUrl}`);
-        this.logoCache[symbol] = logoUrl; // Cache the logo URL
         return logoUrl;
       } else {
         console.log(`No logo URL found for symbol: ${symbol}`);

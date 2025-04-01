@@ -13,7 +13,14 @@
   font-size: 24px;
   font-weight: bold;
   color: #ff6f00;
+  text-decoration: none !important;
 }
+
+.navbar-logo a {
+  text-decoration: none;
+}
+
+
 
 /* Center: Navigation Links */
 .navbar-links {

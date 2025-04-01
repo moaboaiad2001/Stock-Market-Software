@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
-import { NetworkManagerTrial } from "../NetworkManagerTrial";
+import { NetworkManager } from "./NetworkManager";
 import "../styling/Home.css";
 import { Link } from "react-router-dom";
 import { IoPerson } from "react-icons/io5";
@@ -25,33 +25,34 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
   const [stockOptions, setStockOptions] = useState<StockOption[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const networkManager = new NetworkManagerTrial(
-    "T4YMtQfhAo7AHgA7z1uH06RhBeW5S8pI"
-  );
+  const networkManager = new NetworkManager();
 
   useEffect(() => {
     const fetchStocks = async () => {
       setIsLoading(true);
       try {
-        // Manually define the five stocks
-        const stocksToFetch = ["AAPL", "MSFT", "GOOGL", "TSLA", "AMZN"];
-
+        // Explicitly define only the stocks you want
+        const symbols = ["AMZN", "MSFT", "GOOGL", "AAPL"]; // Amazon, Microsoft, Google
         const stocksWithDetails = await Promise.all(
-          stocksToFetch.map(async (ticker) => {
-            const stock = await networkManager.fetchStockData(ticker);
-            const logo = await networkManager.fetchLogo(ticker);
-            console.log(`THIS IS LOGO:  ${logo} ${stock}`);
-            return {
-              value: ticker,
-              label: `${ticker}`,
-              price: stock.price || 0,
-              change: stock.change || 0,
-              logoUrl: logo || "green",
-            };
+          symbols.map(async (ticker) => {
+            // Fetch data for each stock directly
+            const stock = await networkManager.fetchStockSymbols(ticker);
+            if (stock.length > 0) {
+              const logo = stock[0]?.logo_url ?? ""; // Assuming the first element is the correct one
+              return {
+                value: stock[0]?.symbol || ticker,
+                label: stock[0]?.name ?? ticker,
+                price: stock[0]?.price ?? 0,
+                change: stock[0]?.percentChange || 0,
+                logoUrl: logo,
+              };
+            }
+            return null; // If no stock data, return null
           })
         );
 
-        setStockOptions(stocksWithDetails);
+        // Filter out any null results (in case no data was returned for a ticker)
+        setStockOptions(stocksWithDetails.filter((stock) => stock !== null));
       } catch (error) {
         console.error("Error fetching stock data:", error);
         setStockOptions([]);
@@ -61,7 +62,7 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
     };
 
     fetchStocks();
-  }, []);
+  }, []); // No need to re-fetch unless dependencies change
 
   const CustomOption = (props: any) => {
     const { data, innerRef, innerProps } = props;
@@ -109,7 +110,9 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
 
   return (
     <nav className="navbar">
-      <div className="navbar-logo">{t("forsa")}</div>
+      <Link to="/login" className="navbar-logo">
+        {t("forsa")}
+      </Link>
       <div className="navbar-actions">
         <Select
           className="navbar-search search-dropdown"

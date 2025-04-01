@@ -49,8 +49,8 @@ export class NetworkManager {
       const data = await response.json();
       if (data?.results) {
         const stockPromises = data.results.map(async (ticker: any) => {
-          const stockData = await this.getStockData(ticker.ticker);
-          const logo_url = await this.fetchLogo(ticker.ticker); // Fetch logo URL
+          const stockData = await this.getStockData(ticker.ticker); // Get data from Polygon API
+          const logo_url = stockData.logo_url || ""; // Logo URL from the Polygon API
           return {
             symbol: ticker.ticker,
             name: ticker.name,
@@ -68,34 +68,44 @@ export class NetworkManager {
     }
   }
 
-  // Fetch stock data (price and change)
   async getStockData(symbol: string): Promise<{
     name?: string;
     price: number;
     percentChange?: number;
     logo_url?: string;
   }> {
-    const quoteUrl = `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${this.finnhubApiKey}`;
     const profileUrl = `https://api.polygon.io/v3/reference/tickers/${symbol}?apiKey=${this.yahooFinanceApiKey}`;
+    const quoteUrl = `https://api.polygon.io/v2/aggs/ticker/${symbol}/prev?apiKey=${this.yahooFinanceApiKey}`;
 
     try {
-      const [quoteResponse, profileResponse] = await Promise.all([
-        fetch(quoteUrl),
+      // Fetch both stock profile and quote (price) data
+      const [profileResponse, quoteResponse] = await Promise.all([
         fetch(profileUrl),
+        fetch(quoteUrl),
       ]);
 
-      const quoteData = await quoteResponse.json();
       const profileData = await profileResponse.json();
+      const quoteData = await quoteResponse.json();
 
+      // Check for errors in the profile or quote data
+      if (!profileData.results || !quoteData.results) {
+        console.error(
+          `Error fetching data for ${symbol}:`,
+          profileData.error || quoteData.error
+        );
+        return { price: 0, logo_url: "" };
+      }
+
+      // Return the stock data using only the Polygon API
       return {
         name: profileData.results?.name || symbol,
-        price: quoteData.c || 0,
-        percentChange: quoteData.dp || 0,
-        logo_url: profileData.results?.branding?.icon_url || "", // Return the logo URL
+        price: quoteData.results?.c || 0, // Using 'c' for closing price from the Polygon API
+        percentChange: quoteData.results?.p || 0, // Using 'p' for percent change from the Polygon API
+        logo_url: profileData.results?.branding?.icon_url || "", // Logo URL from Polygon profile data
       };
     } catch (error) {
       console.error(`Error fetching data for ${symbol}:`, error);
-      return { price: 0, logo_url: "" }; // Prevent errors if no logo is found
+      return { price: 0, logo_url: "" }; // Default return values in case of error
     }
   }
 

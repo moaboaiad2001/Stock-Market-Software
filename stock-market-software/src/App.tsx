@@ -12,6 +12,8 @@ import ReportsandStatements from "./components/Profile/ReportsandStatements";
 import SecurityandPrivacy from "./components/Profile/SecurityandPrivacy";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./utils/i18n";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 
 const App: React.FC = () => {
   const [watchlist, setWatchlist] = useState<StockOption[]>([]);
@@ -52,6 +54,8 @@ const App: React.FC = () => {
             path="/security-and-privacy"
             element={<SecurityandPrivacy />}
           />
+          <Route path="/login" element={<Login />} />
+          <Route path="/sign-up" element={<SignUp />} />
         </Routes>
       </Router>
     </I18nextProvider>
