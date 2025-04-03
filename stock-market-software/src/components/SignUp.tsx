@@ -11,13 +11,13 @@ const SignUp = () => {
     phone: "",
     address: "",
     dateOfBirth: "",
-    verificationId: null as File | null,
+    verificationId: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
     if (name === "verificationId" && files) {
-      setFormData({ ...formData, verificationId: files[0] });
+      setFormData({ ...formData });
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -35,24 +35,20 @@ const SignUp = () => {
         <form onSubmit={handleSubmit}>
           {Object.keys(formData).map((key) => (
             <div className="input-group" key={key}>
-              <label>
-                {key
-                  .replace(/([A-Z])/g, " $1")
-                  .replace(/^./, (str) => str.toUpperCase())}
-              </label>
               <input
                 type={
                   key.includes("password")
                     ? "password"
                     : key === "dateOfBirth"
                     ? "date"
-                    : key === "verificationId"
-                    ? "file"
                     : "text"
                 }
                 name={key}
                 onChange={handleChange}
                 required={key !== "verificationId"}
+                placeholder={key
+                  .replace(/([A-Z])/g, " $1")
+                  .replace(/^./, (str) => str.toUpperCase())}
               />
             </div>
           ))}

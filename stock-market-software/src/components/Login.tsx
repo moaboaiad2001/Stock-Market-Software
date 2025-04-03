@@ -3,13 +3,20 @@ import "../styling/Login.css";
 import { Link } from "react-router-dom";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [showHelpOptions, setShowHelpOptions] = useState(false);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Logging in with", { email, password });
+
+    if (!username || !password) {
+      setError("Username and password are required.");
+      return;
+    }
+
+    console.log("Logging in with", { username, password });
   };
 
   return (
@@ -19,11 +26,11 @@ const Login = () => {
         <form onSubmit={handleLogin}>
           <div className="input-group">
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
-              placeholder="Email"
+              placeholder="Username"
             />
           </div>
           <div className="input-group">

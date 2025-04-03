@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Select from "react-select";
 import { NetworkManager } from "./NetworkManager";
 import "../styling/Home.css";
@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { IoPerson } from "react-icons/io5";
 import { FaCheck, FaPlus } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import { LightModeContext } from "../utils/LightModeContext";
+import LightSwitch from "../utils/LightSwitch";
 
 interface StockOption {
   value: string;
@@ -18,14 +20,20 @@ interface StockOption {
 interface NavbarProps {
   watchlist: StockOption[];
   toggleWatchlist: (stock: StockOption) => void;
+  toggleTheme: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
+const Navbar: React.FC<NavbarProps> = ({
+  watchlist,
+  toggleWatchlist,
+  toggleTheme,
+}) => {
   const { t, i18n } = useTranslation();
   const [stockOptions, setStockOptions] = useState<StockOption[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const networkManager = new NetworkManager();
+  const { lightMode } = useContext(LightModeContext) ?? {};
 
   useEffect(() => {
     const fetchStocks = async () => {
@@ -109,7 +117,12 @@ const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
   };
 
   return (
-    <nav className="navbar">
+    <nav
+      className={
+        lightMode === "dark" ? "navbar navbar-dark" : "navbar navbar-light"
+      }
+    >
+      <LightSwitch />
       <Link to="/login" className="navbar-logo">
         {t("forsa")}
       </Link>

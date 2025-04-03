@@ -14,6 +14,8 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "./utils/i18n";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
+import { LightModeProvider } from "./utils/LightModeContext";
+import ThemeToggle from "./utils/ThemeToggle";
 
 const App: React.FC = () => {
   const [watchlist, setWatchlist] = useState<StockOption[]>([]);
@@ -27,37 +29,50 @@ const App: React.FC = () => {
     });
   };
 
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
+
   return (
     <I18nextProvider i18n={i18n}>
-      <Router>
-        <Navbar watchlist={watchlist} toggleWatchlist={toggleWatchlist} />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Home watchlist={watchlist} toggleWatchlist={toggleWatchlist} />
-            }
+      <LightModeProvider>
+        <Router>
+          <Navbar
+            watchlist={watchlist}
+            toggleWatchlist={toggleWatchlist}
+            toggleTheme={toggleTheme}
           />
-          <Route path="/profile" element={<Profile />} />
-          <Route
-            path="/personal-information"
-            element={<PersonalInformation />}
-          />
-          <Route
-            path="/reports-and-statements"
-            element={<ReportsandStatements />}
-          />
-          <Route path="/news" element={<NewsPage />} />
-          <Route path="/transfers" element={<Tranfsers />} />
-          <Route path="/rewards" element={<Rewards />} />
-          <Route
-            path="/security-and-privacy"
-            element={<SecurityandPrivacy />}
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/sign-up" element={<SignUp />} />
-        </Routes>
-      </Router>
+
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Home watchlist={watchlist} toggleWatchlist={toggleWatchlist} />
+              }
+            />
+            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/personal-information"
+              element={<PersonalInformation />}
+            />
+            <Route
+              path="/reports-and-statements"
+              element={<ReportsandStatements />}
+            />
+            <Route path="/news" element={<NewsPage />} />
+            <Route path="/transfers" element={<Tranfsers />} />
+            <Route path="/rewards" element={<Rewards />} />
+            <Route
+              path="/security-and-privacy"
+              element={<SecurityandPrivacy />}
+            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/sign-up" element={<SignUp />} />
+          </Routes>
+        </Router>
+      </LightModeProvider>
     </I18nextProvider>
   );
 };
