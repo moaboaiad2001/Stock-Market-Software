@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
 import Investment from "./Investment";
+import "../styling/Home.css";
+import { LightModeContext } from "../utils/LightModeContext";
 
 interface PNLChartProps {
   investment: Investment;
@@ -78,7 +80,6 @@ const PNLChart: React.FC<PNLChartProps> = ({
     }
   };
 
-  // Fallback for "Live" since getIncrease may not support it
   const getIncreaseForPeriod = (period: PNLChartProps["selectedPeriod"]) => {
     if (period === "Live") {
       return investment.getCurrentAmount(); // Or another fallback value
@@ -88,11 +89,36 @@ const PNLChart: React.FC<PNLChartProps> = ({
     );
   };
 
+  // Define gradient based on whether the value is positive or negative
+  const getGradientId = (value: number) => {
+    return value >= 0 ? "greenGradient" : "redGradient";
+  };
+
+  const lightModeContext = useContext(LightModeContext);
+  const lightMode = lightModeContext?.lightMode || "light";
+
   return (
     <div className="chart-wrapper">
       <div className="chart-container">
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={getChartData()}>
+          <AreaChart data={getChartData()}>
+            {/* Define both green and red vertical gradients */}
+            <defs>
+              <linearGradient id="greenGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="green" />
+                <stop
+                  offset="95%"
+                  stopColor={lightMode === "light" ? "white" : "black"}
+                />
+              </linearGradient>
+              <linearGradient id="redGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="red" />
+                <stop
+                  offset="100%"
+                  stopColor={lightMode === "dark" ? "white" : "black"}
+                />
+              </linearGradient>
+            </defs>
             <XAxis dataKey="time" />
             <YAxis />
             <Tooltip
@@ -113,16 +139,27 @@ const PNLChart: React.FC<PNLChartProps> = ({
                 return null;
               }}
             />
-            <Line
+            <Area
               type="monotone"
               dataKey="value"
               stroke={
-                getIncreaseForPeriod(selectedPeriod) >= 0 ? "green" : "red"
+                getIncreaseForPeriod(selectedPeriod) >= 0
+                  ? lightMode
+                    ? "#00c853"
+                    : "green" // Bright green for light mode
+                  : lightMode
+                  ? "#d50000"
+                  : "red" // Bright red for light mode
               }
-              strokeWidth={2}
+              fill={
+                getIncreaseForPeriod(selectedPeriod) >= 0
+                  ? "url(#greenGradient)"
+                  : "url(#redGradient)"
+              } // Conditional gradient based on value
+              strokeWidth={2} // Increased stroke width for better visibility
               dot={false}
             />
-          </LineChart>
+          </AreaChart>
         </ResponsiveContainer>
       </div>
     </div>

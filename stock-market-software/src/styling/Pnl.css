@@ -18,3 +18,9 @@
     justify-content: flex-start;
     width: 100%;
   }
+
+  .test-area-drop-shadow {
+    filter: drop-shadow(0px 10px 10px rgba(255, 255, 255, 0.32))
+            drop-shadow(0px -2px 4px rgba(255, 255, 255, 0.32));
+  }
+  

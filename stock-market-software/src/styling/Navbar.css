@@ -4,16 +4,27 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px 32px;
-  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1)
 }
 
 .navbar-dark {
   background-color: black;
 }
 
+.navbar-dark a {
+  color: white;
+}
+
 .navbar-light {
   background-color: white;
+  box-shadow: 10px 5px 5px rgb(0, 0, 0);
+  border-bottom: 1px solid black;
 }
+
+.navbar-light a {
+  color: black;
+}
+
 .lightswitch {
   display: flex;
   align-items: center;
@@ -41,7 +52,7 @@
 .navbar-logo {
   font-size: 24px;
   font-weight: bold;
-  color: #ff6f00;
+  color: #ff6f00 !important;
   text-decoration: none !important;
 }
 
@@ -61,7 +72,6 @@
 
 .navbar-links a {
   text-decoration: none;
-  color: #ffffff;
   font-weight: 500;
   transition: color 0.3s;
 }

@@ -5,7 +5,6 @@ html {
 }
 
 h1, h2, h3 {
-  color: white;
   margin: 0;
   padding: 10px 0;
   font-family: "Playfair Display" !important;
@@ -13,6 +12,34 @@ h1, h2, h3 {
 
 .home-page {
   padding: 16px 32px;
+}
+
+.home-page-dark {
+  background-color: black;
+  color: rgb(255, 255, 255);
+}
+
+.home-page-dark select{
+  background-color: black;
+  color: white;
+}
+
+.home-page-dark button{
+  color: white !important;
+}
+
+.home-page-light {
+  background-color: rgb(255, 255, 255);
+  color: black;
+}
+
+.home-page-light select{
+  background-color: white;
+  color: black;
+}
+
+.home-page-light button{
+  color: black !important;
 }
 
 /* Theme Variables */
@@ -28,7 +55,7 @@ h1, h2, h3 {
 }
 
 [data-theme="light"] {
-  --background-color: rgb(0, 0, 0);
+  --background-color: rgb(255, 255, 255);
   --text-color: black;
   --border-color: #ddd;
   --card-background: #f9f9f9;
@@ -64,19 +91,19 @@ h1, h2, h3 {
   border: none;
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-background);
+  color: white;
   cursor: pointer;
   padding: 5px 8px;
   transition: color 0.3s ease-in-out;
 }
 
 .timeframe-buttons button.active {
-  color: #4caf50; /* Green */
+  color: #4caf50 !important; /* Green */
   border-bottom: 2px solid #4caf50;
 }
 
 .timeframe-buttons:hover button:hover {
-  color: #1e88e5; /* Blue */
+  color: #1e88e5 !important; /* Blue */
   background-color: none !important;
 }
 
@@ -112,6 +139,12 @@ h1, h2, h3 {
   max-width: 70%;
 }
 
+.test-area-drop-shadow{
+  filter: drop-shadow(200px 200px 40px rgba(255, 255, 255, 0.952)) /* Larger horizontal and vertical shadow */
+          drop-shadow(-20px -20px 40px rgba(255, 255, 255, 0.32)); /* Another larger shadow */
+}
+
+
 .chart-wrapper {
   width: 100%;
   padding: 0 10px;
@@ -145,10 +178,9 @@ h1, h2, h3 {
   flex: 1;
   margin-top: 20px;
   max-height: 100%; /* Ensure it doesn't exceed the PNL chart height */
-  background-color: #000000;
+ 
   padding: 20px;
   border-radius: 10px;
-  color: white;
   overflow: auto; /* Ensures scrolling if content overflows */
   align-self: stretch; /* Ensures alignment with PNL container */
   border: solid rgb(38, 38, 38);
@@ -177,8 +209,6 @@ min-width: 400px !important;
 /* Title */
 .news-title,
 .watchlist-title {
-  color: white;
-  background-color: #000000;
   font-size: 25px;
   margin-bottom: 10px;
   border-bottom: 2px solid #4caf50;
@@ -194,11 +224,11 @@ min-width: 400px !important;
   list-style: none;
   padding: 0;
   min-width: 100% !important;
-  color: white;
+ 
 }
 
 #stockList li {
-  background-color: #000000;
+  
   padding: 10px;
   margin: 5px 0;
   border-radius: 5px;
@@ -207,7 +237,7 @@ min-width: 400px !important;
   align-items: flex-start;
   font-size: 16px;
   transition: background 0.3s ease-in-out;
-  color: white;
+ 
   border: solid #4caf50;
 }
 
@@ -276,7 +306,7 @@ min-width: 400px !important;
 .news-article-title a {
   font-size: 14px; /* Smaller font size */
   font-weight: lighter;
-  color: white;
+  
   text-decoration: none;
   overflow: hidden;
   text-overflow: ellipsis; /* Truncate with '...' if the text overflows */
@@ -329,7 +359,7 @@ min-width: 400px !important;
 
 /* Trending Section */
 .trending-list-title {
-  color: white;
+  
   font-size: 25px;
   margin-bottom: 10px;
   border-bottom: 2px solid #4caf50;
@@ -347,7 +377,7 @@ min-width: 400px !important;
   gap: 20px;
   padding: 0;
   list-style: none;
-  color: white;
+
 }
 
 .trending-categories li {
@@ -365,7 +395,7 @@ min-width: 400px !important;
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  color: white;
+  
   transition: transform 0.2s ease-in-out;
 }
 
@@ -395,7 +425,6 @@ min-width: 400px !important;
 .trending-categories li span {
   font-size: 12px;
   font-weight: bold;
-  color: white;
   line-height: 1.2;
   max-width: 100%;
   white-space: nowrap;
@@ -425,7 +454,7 @@ min-width: 400px !important;
 }
 
 .funds-title {
-  color: white;
+  
   font-size: 25px;
   margin-bottom: 10px;
   border-bottom: 2px solid #4caf50;
@@ -443,7 +472,6 @@ min-width: 400px !important;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #000000; /* Dark theme */
   padding: 15px 20px;
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
@@ -456,7 +484,7 @@ min-width: 400px !important;
 }
 
 .funds-card h3 {
-  color: white;
+  
   font-size: 16px;
   font-weight: 500;
 }
@@ -475,7 +503,7 @@ min-width: 400px !important;
 }
 
 .biggest-movers-title {
-  color: white;
+ 
   font-size: 25px;
   margin-bottom: 10px;
   border-bottom: 2px solid #4caf50;
@@ -491,7 +519,6 @@ min-width: 400px !important;
 
 .movers-container {
   width: 60%; /* Each container will take up half the width */
-  background-color: #000000; /* Dark theme */
   padding: 15px;
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
@@ -507,7 +534,6 @@ min-width: 400px !important;
 }
 
 .movers-stock-container {
-  background-color: #000000; /* Slightly different shade to differentiate */
   padding: 15px;
   border-radius: 8px;
   margin-top: 10px;
@@ -517,8 +543,6 @@ min-width: 400px !important;
 }
 
 .movers-stock-container-losers {
-  background-color: #000000; /* Slightly different shade to differentiate */
-  padding: 15px;
   border-radius: 8px;
   margin-top: 10px;
   display: flex;
@@ -527,18 +551,18 @@ min-width: 400px !important;
 }
 
 .movers-stock-container h3 {
-  color: white;
+  
   font-size: 14px;
   font-weight: 500;
 }
 .movers-stock-container-losers h3 {
-  color: white;
+  
   font-size: 14px;
   font-weight: 500;
 }
 
 .gainers-title, .losers-title {
-  color: white;
+ 
   font-size: 20px;
   margin-bottom: 15px;
 }
@@ -573,10 +597,8 @@ min-width: 400px !important;
   flex: 1;
   min-height: 400px;
   max-height: 400px;
-  background-color: #000;
   padding: 20px;
   border-radius: 10px;
-  color: white;
   overflow: auto;
   border: 1px solid #262626;
   font-family: "Playfair Display";
@@ -585,7 +607,7 @@ min-width: 400px !important;
 }
 
 .watchlist-title {
-  color: white;
+ 
   font-size: 25px;
   margin-bottom: 10px;
   border-bottom: 2px solid #4caf50;
@@ -600,7 +622,7 @@ min-width: 400px !important;
 }
 
 #stockList li {
-  background-color: black;
+  
   padding: 10px;
   margin: 5px 0;
   border-radius: 5px;
@@ -671,16 +693,13 @@ min-width: 400px !important;
 .heat-map-container {
   max-width: 50%;
   width: 60%; /* Each container will take up half the width */
-  background-color: #000000; /* Dark theme */
   padding: 15px;
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   flex: 1;
   max-height: 400px; /* Ensure it doesn't exceed the PNL chart height */
-  background-color: #000000;
   padding: 20px;
   border-radius: 10px;
-  color: white;
   overflow: auto; /* Ensures scrolling if content overflows */
   align-self: stretch; /* Ensures alignment with PNL container */
   border: solid rgb(38, 38, 38);

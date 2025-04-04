@@ -5,7 +5,7 @@ export interface StockOption {
   label: string;
   price: number;
   change: number;
-  logoUrl?: string; // Add the logoUrl property as optional
+  logo_url?: string; // Add the logoUrl property as optional
 }
 
   

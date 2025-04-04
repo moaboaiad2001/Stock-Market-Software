@@ -1,6 +1,6 @@
 export class NetworkManager {
-  private finnhubApiKey = "csjs5u9r01qvrnd73fdgcs5u9r01qvrnd73fe0";
-  private yahooFinanceApiKey = "T4YMtQfhAo7AHgA7z1uH06RhBeW5S8pI";
+  private finnhubApiKey = "cvnjukpr01qq3c7fphigcvnjukpr01qq3c7fphj0";
+  private yahooFinanceApiKey = "Fb7LNj6K1zBvnardW_HTHkXkJM0rLBLs";
   private marketauxApiKey = "JXFAi23iEQCymnk3UDhfO46UYW74eyjVveESESSZ";
   private logoCache: { [key: string]: string } = {}; // Cache for logos
 
@@ -115,6 +115,7 @@ export class NetworkManager {
     try {
       const response = await fetch(url);
       const symbols = await response.json();
+      console.log("Symbols response:", symbols, "Type:", typeof symbols);
 
       const stockDataPromises = symbols.slice(0, 50).map(async (stock: any) => {
         const stockData = await this.getStockData(stock.symbol);
@@ -177,7 +178,7 @@ export class NetworkManager {
     }[]
   > {
     console.log(`getStockNews called with ticker: '${ticker}'`);
-    const baseURL = "https://api.polygon.io/v2/reference/news";
+    const baseURL = "https://api.polygon.io/v2/reference/news///";
     const newsURL = `${baseURL}?${
       ticker ? `ticker=${ticker}&` : ""
     }limit=10&apiKey=${this.yahooFinanceApiKey}`;

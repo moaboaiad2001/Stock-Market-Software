@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "../styling/Home.css";
 import Investment from "./Investment";
 import News from "./News";
@@ -11,6 +11,7 @@ import BiggestMovers from "./BiggestMovers";
 import HeatMap from "./HeatMap";
 import { LuListFilter } from "react-icons/lu";
 import { useTranslation } from "react-i18next";
+import { LightModeContext } from "../utils/LightModeContext";
 
 interface HomeProps {
   watchlist: StockOption[];
@@ -19,6 +20,9 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({ watchlist }) => {
   const { t } = useTranslation();
+
+  const lightModeContext = useContext(LightModeContext);
+  const lightMode = lightModeContext?.lightMode || "light";
 
   const investment = new Investment(1000, 1100, 1050, 950, 900, 800, 1150);
 
@@ -61,7 +65,13 @@ const Home: React.FC<HomeProps> = ({ watchlist }) => {
   const [container5, setContainer5] = useState("heat-map");
 
   return (
-    <div className="home-page">
+    <div
+      className={`home-page ${
+        lightMode === "dark"
+          ? "home-page home-page-dark"
+          : "home-page home-page-light"
+      }`}
+    >
       <div className="first-row">
         <div className="pnl-and-portfolio">
           <h1>{t("portfolio")}</h1>

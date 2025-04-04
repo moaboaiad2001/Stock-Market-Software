@@ -8,8 +8,8 @@ export class NetworkManagerTrial {
   }
 
   // Function to fetch stock symbols for specific companies
-  public async fetchStockSymbols() {
-    const symbols = ['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'AMZN']; // Apple, Microsoft, Google, Tesla, Amazon
+  public async fetchStockSymbols(symbols:string) {
+    
     const stockSymbols = [];
   
     for (const symbol of symbols) {
@@ -33,35 +33,23 @@ export class NetworkManagerTrial {
   
 
   // Function to fetch stock data including price and percent change
-  public async fetchStockData(): Promise<{ [key: string]: { price: number; change: number } }> {
-    const symbols = ['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'AMZN'];
-    const results: { [key: string]: { price: number; change: number } } = {};
+  public async fetchStockData(ticker: string) {
+    const rest = restClient(this.polygonApiKey)
 
     try {
-        for (const symbol of symbols) {
-            const data = await restClient(this.polygonApiKey).stocks.dailyOpenClose(
-                symbol,
-                "2025-03-20",
-                { adjusted: "true" }
-            );
-
-            if (typeof data.open !== "number" || typeof data.close !== "number") {
-                console.warn(`Skipping ${symbol} due to invalid data: open=${data.open}, close=${data.close}`);
-                continue;
-            }
-
-            results[symbol] = {
-                price: data.close,
-                change: data.open - data.close
-            };
-        }
-    } catch (e) {
-        console.error("An error happened while fetching stock data:", e);
-        throw new Error("Failed to fetch stock data");
+      const data = await rest.reference.tickerDetails(ticker);
+      return {
+        symbol: data.results?.ticker ?? ticker,
+        name: data.results?.name ?? ticker,
+        price: data.results?.primary_exchange ?? 0, // Ensure this exists
+        percentChange: data.results?.primary_exchange ?? 0, // Ensure this exists
+        logo_url: data?.results?.branding?.logo_url ?? "", // Handle missing logo
+      };
+    } catch (error) {
+      console.error(error);
+      return null; // Return null on failure
     }
-
-    return results;
-}
+  }
 
 
 
@@ -92,3 +80,5 @@ export class NetworkManagerTrial {
   }
   
 }
+
+
