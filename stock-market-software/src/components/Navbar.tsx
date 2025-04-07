@@ -8,6 +8,7 @@ import { FaCheck, FaPlus } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { LightModeContext } from "../utils/LightModeContext";
 import LightSwitch from "../utils/LightSwitch";
+import { NetworkManager } from "./NetworkManager";
 
 interface StockOption {
   value: string;
@@ -32,34 +33,32 @@ const Navbar: React.FC<NavbarProps> = ({
   const [stockOptions, setStockOptions] = useState<StockOption[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const networkManager = new NetworkManagerTrial(
-    "T4YMtQfhAo7AHgA7z1uH06RhBeW5S8pI"
-  );
+  const networkManager = new NetworkManager();
   const lightModeContext = useContext(LightModeContext);
   const lightMode = lightModeContext?.lightMode || "light"; // Ensures no undefined values
-
   useEffect(() => {
     const fetchStocks = async () => {
       setIsLoading(true);
       try {
-        const symbols = ["AMZN", "MSFT"];
+        const symbols = ["AMZN"];
         const stocksWithDetails = await Promise.all(
           symbols.map(async (ticker) => {
-            const stock = await networkManager.fetchStockData(ticker);
-            if (stock) {
-              return {
-                value: stock.symbol,
-                label: stock.name,
-                price: stock.price,
-                change: stock.percentChange,
-                logo_url: stock.logo_url,
-              };
-            }
-            return null;
+            const stocks = await networkManager.fetchStockSymbols(ticker); // returns an array
+            return stocks.map((stock) => ({
+              value: stock.symbol,
+              label: stock.name,
+              price: stock.price,
+              change: stock.percentChange,
+              logo_url: stock.logo_url,
+            }));
           })
         );
 
-        setStockOptions(stocksWithDetails.filter(Boolean) as StockOption[]);
+        // Flatten the array of arrays and filter out nulls
+        const flattened = stocksWithDetails
+          .flat()
+          .filter(Boolean) as StockOption[];
+        setStockOptions(flattened);
       } catch (error) {
         console.error("Error fetching stock data:", error);
         setStockOptions([]);
@@ -121,7 +120,6 @@ const Navbar: React.FC<NavbarProps> = ({
         lightMode === "dark" ? "navbar navbar-dark" : "navbar navbar-light"
       }
     >
-      <LightSwitch />
       <Link to="/login" className="navbar-logo">
         {t("forsa")}
       </Link>
@@ -140,6 +138,7 @@ const Navbar: React.FC<NavbarProps> = ({
         <Link to="/portfolio">{t("portfolio")}</Link>
         <Link to="/markets">{t("markets")}</Link>
         <Link to="/news">{t("news")}</Link>
+        <LightSwitch />
         <Link to="/profile" className="navbar-profile">
           <IoPerson />
         </Link>

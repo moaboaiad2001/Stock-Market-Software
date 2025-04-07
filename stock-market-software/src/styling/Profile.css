@@ -18,6 +18,16 @@
   font-family: "Playfair Display";
 }
 
+.profile-page-dark {
+  background-color: black;
+  color: white;
+}
+
+.profile-page-light {
+  background-color: white;
+  color: black;
+}
+
 .profile-title {
   width: 100%;
   font-size: 30px;
@@ -32,7 +42,6 @@
 }
 
 .profile-card {
-  background-color: var(--card-color);
   padding: var(--container-padding);
   display: flex;
   flex-direction: row;
@@ -56,7 +65,6 @@
 }
 
 .profile-card:hover {
-  background-color: #000000;
   box-shadow: 0px 0px 00px rgb(122, 122, 122), 
               0px -8px 12px rgb(122, 122, 122), 
               8px 0px 12px rgb(122, 122, 122), 
@@ -103,12 +111,9 @@
 .personal-info-page {
     background-color: #000000; /* Dark background */
     color: #ffffff; /* White text */
-    min-height: 100vh;
     padding: 20px;
     font-family: "Arial", sans-serif;
-    max-width: 500px;
     margin: auto; /* Center the section */
-    border-bottom: 2px solid white;
   }
   
   .personal-info-title {
@@ -127,6 +132,8 @@
     border-radius: 8px;
     margin-bottom: 15px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    margin: auto
   }
   
   /* Title should be separate on its own line */
@@ -179,6 +186,8 @@
     text-align: center;
     border-radius: 6px;
     margin-top: 20px;
+    max-width: 500px;
+    margin: auto;
   }
   
   .save-button:hover {

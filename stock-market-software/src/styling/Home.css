@@ -28,6 +28,12 @@ h1, h2, h3 {
   color: white !important;
 }
 
+.home-page-dark span{
+  color: white !important;
+}
+
+
+
 .home-page-light {
   background-color: rgb(255, 255, 255);
   color: black;
@@ -40,6 +46,43 @@ h1, h2, h3 {
 
 .home-page-light button{
   color: black !important;
+}
+
+.home-page-light span{
+  color: black !important;
+}
+
+.home-page-light .performance-positive{
+  color: rgb(0, 206, 41) !important;
+}
+
+
+.home-page-light .heat-map-container{
+  background: #ffffff !important;
+  border: none !important;
+  
+}
+
+.home-page-light .news-container{
+  background: #ffffff !important;
+  border: none !important;
+  
+}
+
+.home-page-light .watchlist-container{
+  background: #ffffff !important;
+  border: none !important;
+  
+}
+
+.home-page-light .funds-container{
+  background: #ffffff !important;
+  border: none !important;
+}
+
+.home-page-light .biggest-movers-container{
+  background: #ffffff !important;
+  border: none !important;
 }
 
 /* Theme Variables */
@@ -102,7 +145,7 @@ h1, h2, h3 {
   border-bottom: 2px solid #4caf50;
 }
 
-.timeframe-buttons:hover button:hover {
+.timeframe-buttons button:hover {
   color: #1e88e5 !important; /* Blue */
   background-color: none !important;
 }
@@ -203,7 +246,8 @@ min-width: 400px !important;
 .pnl-and-portfolio {
   flex: 6;
   min-width: 1500px;
-  margin-right: -600px
+  margin-right: -600px;
+  
 }
 
 /* Title */
@@ -224,11 +268,10 @@ min-width: 400px !important;
   list-style: none;
   padding: 0;
   min-width: 100% !important;
- 
+  
 }
 
 #stockList li {
-  
   padding: 10px;
   margin: 5px 0;
   border-radius: 5px;
@@ -237,8 +280,11 @@ min-width: 400px !important;
   align-items: flex-start;
   font-size: 16px;
   transition: background 0.3s ease-in-out;
- 
   border: solid #4caf50;
+}
+
+.home-page-light #stockList li {
+  color: black;
 }
 
 #stockList li:hover {
@@ -246,38 +292,27 @@ min-width: 400px !important;
   color: black;
 }
 
-/* News Article */
-.news-article {
-  background-color: #000000;
-  padding: 0px;
-  display: block; /* Change from flex to block to make the content stack vertically */
-  gap: 0px;
-  transition: background 0.3s ease-in-out;
-  margin-bottom: 15px;
-}
+/* News Article 
+
 
 .news-article:hover {
   background-color: #4caf50;
   color: black;
 }
+  */
 
 /* News Image */
 /* News Article */
 .news-article {
-  background-color: #000000;
   padding: 0px;
-  border-radius: 0px;
-  display: flex; /* Stack content vertically */
+  display: flex;
   flex-direction: row;
   gap: 10px;
   transition: background 0.3s ease-in-out;
   margin-bottom: 15px;
-  min-height: relative; /* Fixed height for equal-length cards */
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid;
 }
+
 
 /* News Image */
 .news-article img {
@@ -306,7 +341,6 @@ min-width: 400px !important;
 .news-article-title a {
   font-size: 14px; /* Smaller font size */
   font-weight: lighter;
-  
   text-decoration: none;
   overflow: hidden;
   text-overflow: ellipsis; /* Truncate with '...' if the text overflows */
@@ -317,6 +351,14 @@ min-width: 400px !important;
   /* Fallback for non-WebKit browsers */
   line-clamp: 3; /* Standard property (still experimental in most browsers) */
   box-orient: vertical; /* For non-WebKit browsers */
+}
+
+.home-page-dark .news-article-title a{
+  color: white;
+}
+
+.home-page-light .news-article-title a{
+  color: black;
 }
 
 .news-article-title a:hover {
@@ -695,13 +737,12 @@ min-width: 400px !important;
   width: 60%; /* Each container will take up half the width */
   padding: 15px;
   border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   flex: 1;
   max-height: 400px; /* Ensure it doesn't exceed the PNL chart height */
   padding: 20px;
   border-radius: 10px;
   overflow: auto; /* Ensures scrolling if content overflows */
   align-self: stretch; /* Ensures alignment with PNL container */
-  border: solid rgb(38, 38, 38);
   font-family: "Playfair Display";
+  border: 1px solid #262626;
 }

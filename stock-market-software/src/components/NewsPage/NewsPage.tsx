@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { NetworkManager } from "../NetworkManager";
 import { LuListFilter } from "react-icons/lu";
 import "../../styling/NewsPage.css";
@@ -6,6 +6,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { FaCheck } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import { LightModeContext } from "../../utils/LightModeContext";
 
 interface News {
   symbol: string;
@@ -19,6 +20,9 @@ interface News {
 
 const NewsPage = () => {
   const { t } = useTranslation();
+
+  const lightModeContext = useContext(LightModeContext);
+  const lightMode = lightModeContext?.lightMode || "light";
 
   const [newslist, setNewslist] = useState<News[]>([]);
   const [page, setPage] = useState(1);
@@ -61,8 +65,16 @@ const NewsPage = () => {
   };
 
   return (
-    <div>
-      <div className="news-title-container">
+    <div
+      className={lightMode === "dark" ? "news-page-dark" : "news-page-light"}
+    >
+      <div
+        className={`news-title-container ${
+          lightMode === "dark"
+            ? "news-title-container news-title-container-dark"
+            : "news-title-container news-title-container-light"
+        }`}
+      >
         <h1 className="news-page-title">{t("newsTitle")}</h1>
         <DropdownButton
           id="dropdown-basic-button"
@@ -88,7 +100,13 @@ const NewsPage = () => {
           </Dropdown.Item>
         </DropdownButton>
       </div>
-      <div className="news-page-list">
+      <div
+        className={`news-page-list ${
+          lightMode === "dark"
+            ? "news-page-list news-page-list-dark"
+            : "news-page-list news-page-list-light"
+        }`}
+      >
         {displayedNews.map((news, index) => (
           <div className="news-page-article" key={index}>
             <img

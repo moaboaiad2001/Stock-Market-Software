@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import "../../styling/Profile.css";
 import { Link } from "react-router-dom";
 import {
@@ -15,6 +15,7 @@ import { AiFillGift } from "react-icons/ai";
 import { SiSpringsecurity } from "react-icons/si";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
+import { LightModeContext } from "../../utils/LightModeContext";
 
 const Profile = () => {
   const { t, i18n } = useTranslation();
@@ -30,8 +31,17 @@ const Profile = () => {
     localStorage.setItem("language", newLang);
   };
 
+  const lightModeContext = useContext(LightModeContext);
+  const lightMode = lightModeContext?.lightMode || "light";
+
   return (
-    <div className="profile-page">
+    <div
+      className={`profile-page ${
+        lightMode === "dark"
+          ? "profile-page profile-page-dark"
+          : "profile-page profile-page-light"
+      }`}
+    >
       <h1 className="profile-title">{t("account")}</h1>
       <div className="profile-sections">
         <Link to="/personal-information" className="profile-link">

@@ -6,16 +6,56 @@
   position: relative;
 }
 
+.news-title-container-dark {
+  background-color: #000000;
+  color: white;
+}
+
+.news-title-container-light {
+  background-color: white;
+  color: black;
+}
+
+.news-title-container-light #dropdown-basic-button {
+  background-color: white !important;
+  color: rgb(62, 181, 181);
+}
+
+.news-page-list-light {
+  background-color: white !important;
+}
+
+.news-page-list-dark {
+  background-color: black !important;
+}
+
+.news-page-dark {
+  background-color: black !important;
+  color: white;
+}
+
+.news-page-light {
+  background-color: white;
+  color: black;
+}
+
+
 .news-page-title {
   text-align: center;
   flex-grow: 1;
-  color: white;
-  background-color: #000000;
   font-size: 25px;
   margin-bottom: 20px;
   padding-bottom: 5px;
   font-weight: bold;
   font-family: "Playfair Display";
+}
+
+.news-page-dark .news-page-article-title a {
+  color: white;
+}
+
+.news-page-light .news-page-article-title a {
+  color: black;
 }
 
 /* Position the filter halfway down the .news-dropdown container */
@@ -55,6 +95,8 @@
   color: white;
   border: none;
   min-width: 200px;
+  z-index: 1050; /* Bootstrap dropdown default */
+  position: absolute;
 }
 
 /* Dropdown Items */
@@ -102,7 +144,6 @@
 }
 
 .news-page-article {
-  background-color: #000000;
   padding: 0px;
   border-radius: 0px;
   display: flex;
@@ -143,7 +184,6 @@
 .news-page-article-title a {
   font-size: 15px;
   font-weight: lighter;
-  color: white;
   text-decoration: none;
   overflow: hidden;
   text-overflow: ellipsis;

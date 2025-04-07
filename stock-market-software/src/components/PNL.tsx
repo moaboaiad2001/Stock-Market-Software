@@ -140,7 +140,7 @@ const PNLChart: React.FC<PNLChartProps> = ({
               }}
             />
             <Area
-              type="monotone"
+              type="linear"
               dataKey="value"
               stroke={
                 getIncreaseForPeriod(selectedPeriod) >= 0

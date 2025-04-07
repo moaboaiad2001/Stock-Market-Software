@@ -17,8 +17,8 @@
 
 .navbar-light {
   background-color: white;
-  box-shadow: 10px 5px 5px rgb(0, 0, 0);
-  border-bottom: 1px solid black;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.2) !important;
+  
 }
 
 .navbar-light a {
@@ -65,9 +65,11 @@
 /* Center: Navigation Links */
 .navbar-links {
   display: flex;
-  gap: 100px; /* Increased spacing for better readability */
+    gap: clamp(20px, 5vw, 60px);
+    margin-left: clamp(10px, 5vw, 50px);
+   /* Increased spacing for better readability */
   align-items: center; /* Ensures alignment with other navbar elements */
-  margin-left: 50px; /* Adjusted to bring links closer to the center */
+   /* Adjusted to bring links closer to the center */
 }
 
 .navbar-links a {

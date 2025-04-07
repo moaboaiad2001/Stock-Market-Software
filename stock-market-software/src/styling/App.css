@@ -1,9 +1,19 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Prevent horizontal scrolling and set default background */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff; /* or your actual background */
+  overflow-x: hidden;
+  width: 100%;
 }
+
+/* Ensure root doesn't cause overflow */
+#root {
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 
 .logo {
   height: 6em;
