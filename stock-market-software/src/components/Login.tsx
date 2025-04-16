@@ -1,22 +1,34 @@
 import React, { useState } from "react";
 import "../styling/Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../utils/BackendClientAPI"; // adjust path if needed
+import axios from "axios"; // Import axios
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(""); // this is actually the email
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showHelpOptions, setShowHelpOptions] = useState(false);
+  const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
 
     if (!username || !password) {
-      setError("Username and password are required.");
+      setError("Email and password are required.");
       return;
     }
 
-    console.log("Logging in with", { username, password });
+    try {
+      const response = await login(username, password);
+      console.log("Login success:", response);
+      navigate("/"); // adjust to your actual route
+    } catch (err) {
+      const message =
+        (err as Error).message || "Login failed. Please try again.";
+      setError(message);
+    }
   };
 
   return (
@@ -26,11 +38,11 @@ const Login = () => {
         <form onSubmit={handleLogin}>
           <div className="input-group">
             <input
-              type="username"
+              type="email"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              placeholder="Username"
+              placeholder="Email"
             />
           </div>
           <div className="input-group">
@@ -42,12 +54,12 @@ const Login = () => {
               placeholder="Password"
             />
           </div>
-          <Link to="/sign-up">
-            <button type="submit" className="login-button">
-              Login
-            </button>
-          </Link>
+          {error && <p className="error-message">{error}</p>}
+          <button type="submit" className="login-button">
+            Login
+          </button>
         </form>
+
         <button
           className="help-button"
           onClick={() => setShowHelpOptions(!showHelpOptions)}

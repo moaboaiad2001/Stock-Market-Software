@@ -1,6 +1,5 @@
 /* General Styling */
 html {
-  background-color: var(--background-color);
   font-family: "Playfair Display", sans-serif;
 }
 
@@ -87,7 +86,6 @@ h1, h2, h3 {
 
 /* Theme Variables */
 :root {
-  --background-color: black;
   --text-color: white;
   --primary-color: #4caf50;
   --secondary-color: #1e88e5;
@@ -98,7 +96,6 @@ h1, h2, h3 {
 }
 
 [data-theme="light"] {
-  --background-color: rgb(255, 255, 255);
   --text-color: black;
   --border-color: #ddd;
   --card-background: #f9f9f9;

@@ -1,4 +1,9 @@
-    .generate-report-title {
+.personal-info-page {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.generate-report-title {
     font-size: 18px;
     text-align: center;
     margin-top: 20px;
@@ -8,12 +13,48 @@
     display: block;
     width: 35%;
     margin: 10px auto;
-    border: none !important;
+  }
+
+  .personal-info-page-dark .generate-report-selector {
+    background-color: black;
+    border: .1px solid white !important;
+    border-radius: 2px !important;
+    color: blue
+  }
+  .personal-info-page-light .generate-report-selector {
+    
+    border: .1px solid white !important;
+    border-radius: 2px !important;
+  }
+
+  .report__control {
+    background-color: black;
+    border: none;
+    box-shadow: none; /* Optional: remove box-shadow */
+  }
+
+  .report__single-value {
+    color: #007aff; /* Blue */
+  }
+
+  .report__menu {
+    background-color: black;
+  }
+
+  .report__option {
+    background-color: black;
+    color: #007aff;
+  }
+
+  .report__option--is-focused {
+    background-color: #222;
   }
   
+  
   .generate-button {
-    display: block;
-    width: 100%;
+    display: flex;
+    justify-content: center;
+    width: 35%;
     background-color: #007aff;
     color: white;
     border: none;
@@ -21,6 +62,7 @@
     border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
+    margin: auto;
   }
   
   .generate-button:hover {

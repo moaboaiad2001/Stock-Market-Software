@@ -1,5 +1,6 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
+import "../../styling/Profile.css";
 import Switch, { SwitchProps } from "@mui/material/Switch";
 import { useTranslation } from "react-i18next";
 

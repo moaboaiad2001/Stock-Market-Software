@@ -2,10 +2,34 @@
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #ffffff; /* or your actual background */
   overflow-x: hidden;
   width: 100%;
 }
+
+body.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+body.dark {
+  background-color: #000000 !important;
+  color: #ffffff;
+}
+
+.app-container.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.app-container.dark {
+  background-color: #121212 !important;
+  color: #ffffff;
+}
+
+/* Optional: transition for smooth mode switching */
+.app-container {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 
 /* Ensure root doesn't cause overflow */
 #root {

@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Select from "react-select";
 import "../../styling/ReportsandStatements.css";
 import { useTranslation } from "react-i18next";
+import { LightModeContext } from "../../utils/LightModeContext";
 
 const ReportsandStatements = () => {
   const { t } = useTranslation();
+  const lightModeContext = useContext(LightModeContext);
+  const lightMode = lightModeContext?.lightMode || "light";
+
+  function selectorBackground() {
+    return lightMode === "dark" ? "black" : "white";
+  }
+
   const [selectedOption, setSelectedOption] = useState({
     label: t("lastMonth"),
     value: t("lastMonth"),
@@ -47,7 +55,13 @@ const ReportsandStatements = () => {
   };
 
   return (
-    <div className="personal-info-page">
+    <div
+      className={`personal-info-page ${
+        lightMode === "dark"
+          ? "personal-info-page personal-info-page-dark"
+          : "personal-info-page personal-info-page-light"
+      }`}
+    >
       <h1 className="personal-info-title">{t("reportsAndStatements")}</h1>
       <h3 className="generate-report-title">{t("generateReportTitle")}</h3>
       <Select
@@ -58,8 +72,7 @@ const ReportsandStatements = () => {
         styles={{
           control: (base) => ({
             ...base,
-            backgroundColor: "black",
-            border: "none",
+            backgroundColor: selectorBackground(),
           }),
           singleValue: (base) => ({
             ...base,
@@ -67,11 +80,11 @@ const ReportsandStatements = () => {
           }),
           menu: (base) => ({
             ...base,
-            backgroundColor: "black",
+            backgroundColor: selectorBackground(),
           }),
           option: (base, { isFocused }) => ({
             ...base,
-            backgroundColor: isFocused ? "#222" : "black",
+            backgroundColor: isFocused ? "#222" : selectorBackground(),
             color: "#007aff", // Blue text for options
           }),
         }}

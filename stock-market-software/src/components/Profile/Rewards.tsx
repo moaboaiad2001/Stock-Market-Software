@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { AiFillGift } from "react-icons/ai";
 import { FaStar, FaUserFriends } from "react-icons/fa";
 import "../../styling/Rewards.css";
 import { useTranslation } from "react-i18next";
+import { LightModeContext } from "../../utils/LightModeContext";
 
 const Rewards = () => {
   const { t } = useTranslation();
+  const lightModeContext = useContext(LightModeContext);
+  const lightMode = lightModeContext?.lightMode || "light";
 
   return (
-    <div className="rewards-page">
+    <div
+      className={`rewards-page ${
+        lightMode === "dark"
+          ? "rewards-page rewards-page-dark"
+          : "rewards-page rewards-page-light"
+      }`}
+    >
       <h1 className="rewards-title">{t("rewards")}</h1>
       <div className="rewards-icon">
         <AiFillGift className="gift-icon" />
@@ -29,7 +38,7 @@ const Rewards = () => {
       <div className="reward-container">
         <div className="reward-item">
           <FaStar className="reward-icon" />
-          <span>{t("signUpBonus")}</span>
+          <span>{t("signUpBonus")} </span>
           <span className="reward-amount">$10</span>
         </div>
         <div className="reward-item">

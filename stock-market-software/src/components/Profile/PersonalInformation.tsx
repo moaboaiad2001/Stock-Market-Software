@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../../styling/Profile.css";
 import { useTranslation } from "react-i18next";
+import { LightModeContext } from "../../utils/LightModeContext";
 
 const PersonalInformation = () => {
   const { t } = useTranslation();
+  const lightModeContext = useContext(LightModeContext);
+  const lightMode = lightModeContext?.lightMode || "light";
 
   const personalInformation = {
     name: "Mohamed Abo Aiad",
@@ -13,7 +16,13 @@ const PersonalInformation = () => {
   };
 
   return (
-    <div className="personal-info-page">
+    <div
+      className={
+        lightMode === "dark"
+          ? "personal-info-page personal-info-page-dark"
+          : "personal-info-page personal-info-page-light"
+      }
+    >
       <h1 className="personal-info-title">{t("personalInformation")}</h1>
 
       <div className="info-section">

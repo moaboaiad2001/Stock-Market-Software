@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../../styling/Profile.css";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { LightModeContext } from "../../utils/LightModeContext";
 
 const Tranfsers = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const lightModeContext = useContext(LightModeContext);
+  const lightMode = lightModeContext?.lightMode || "light";
+
   return (
-    <div className="transfers-page">
+    <div
+      className={
+        lightMode === "dark"
+          ? "transfers-page transfers-page-dark"
+          : "transfers-page transfers-page-light"
+      }
+    >
       <h1 className="personal-info-title">{t("transfers")}</h1>
       <div className="transfer-option">
         <label>{t("deposit")}</label>

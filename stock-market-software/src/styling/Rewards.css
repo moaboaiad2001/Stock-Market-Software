@@ -1,12 +1,14 @@
 .rewards-page {
-    background-color: #000;
-    color: #fff;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     padding: 20px;
+  }
+
+  .rewards-page-dark {
+    background-color: black;
   }
   
   .rewards-title {
@@ -49,8 +51,8 @@
   }
   
   .progress-text {
-    font-size: 12px;
-    color: #0f0;
+    font-size: 14px;
+    color: rgb(56, 246, 56);
   }
   
   .share-invite-button {
@@ -85,19 +87,19 @@
     display: flex;
     align-items: center;
     justify-content: space-between; /* Keeps items spaced inside */
-    width: 80%;
-    max-width: 400px; /* Prevents stretching too wide */
+    width: 100%;
+    max-width: 450px; /* Prevents stretching too wide */
     padding: 10px;
     border-bottom: 1px solid #333;
   }
   
   
   .reward-icon {
-    color: #0f0;
+    color: rgb(56, 246, 56);
     margin-right: 10px;
   }
   
   .reward-amount {
-    color: #0f0;
+    color: rgb(56, 246, 56);
     font-weight: bold;
   }

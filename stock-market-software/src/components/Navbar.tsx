@@ -21,14 +21,9 @@ interface StockOption {
 interface NavbarProps {
   watchlist: StockOption[];
   toggleWatchlist: (stock: StockOption) => void;
-  toggleTheme: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({
-  watchlist,
-  toggleWatchlist,
-  toggleTheme,
-}) => {
+const Navbar: React.FC<NavbarProps> = ({ watchlist, toggleWatchlist }) => {
   const { t } = useTranslation();
   const [stockOptions, setStockOptions] = useState<StockOption[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
