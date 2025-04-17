@@ -11,6 +11,7 @@ h1, h2, h3 {
 
 .home-page {
   padding: 16px 32px;
+  padding-top: 80px;
 }
 
 .home-page-dark {

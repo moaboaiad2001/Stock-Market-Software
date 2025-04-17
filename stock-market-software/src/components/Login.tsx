@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "../styling/Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../utils/BackendClientAPI"; // adjust path if needed
 import axios from "axios"; // Import axios
+import { LightModeContext } from "../utils/LightModeContext";
 
 const Login = () => {
   const [username, setUsername] = useState(""); // this is actually the email
@@ -10,6 +11,9 @@ const Login = () => {
   const [error, setError] = useState("");
   const [showHelpOptions, setShowHelpOptions] = useState(false);
   const navigate = useNavigate();
+
+  const lightModeContext = useContext(LightModeContext);
+  const lightMode = lightModeContext?.lightMode || "light";
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,7 +36,13 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
+    <div
+      className={`login-container ${
+        lightMode === "dark"
+          ? "login-container login-container-dark"
+          : "login-container login-container-light"
+      }`}
+    >
       <div className="login-box">
         <h2 className="login-title">Login</h2>
         <form onSubmit={handleLogin}>

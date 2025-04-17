@@ -16,6 +16,7 @@
   color: var(--text-color);
   padding: 60px;
   font-family: "Playfair Display";
+  padding-top: 80px;
 }
 
 .profile-page-dark {
@@ -112,6 +113,7 @@
     padding: 20px;
     font-family: "Playfair Display", sans-serif;
     margin: auto; /* Center the section */
+    padding-top: 80px;
   }
 
 .personal-info-page-dark {
@@ -212,6 +214,7 @@
   padding: 20px;
   font-family: "Playfair Display", sans-serif !important;
   margin: auto; /* Center the section */
+  padding-top: 80px;
 }
 
 .transfers-page-dark {

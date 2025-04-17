@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { styled } from "@mui/material/styles";
 import "../../styling/Profile.css";
 import Switch, { SwitchProps } from "@mui/material/Switch";
 import { useTranslation } from "react-i18next";
+import { LightModeContext } from "../../utils/LightModeContext";
 
 const SecurityandPrivacy = () => {
   const { t } = useTranslation();
+  const lightModeContext = useContext(LightModeContext);
+  const lightMode = lightModeContext?.lightMode || "light";
 
   const label = { inputProps: { "aria-label": "Size switch demo" } };
 
@@ -74,7 +77,13 @@ const SecurityandPrivacy = () => {
   }));
 
   return (
-    <div className="personal-info-page">
+    <div
+      className={`personal-info-page ${
+        lightMode === "dark"
+          ? "personal-info-page personal-info-page-dark"
+          : "personal-info-page personal-info-page-light"
+      }`}
+    >
       <h1 className="personal-info-title">{t("securityAndPrivacy")}</h1>
 
       <div className="info-section">

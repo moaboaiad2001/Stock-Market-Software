@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "../styling/SignUp.css";
 import { Link, useNavigate } from "react-router-dom";
-import { createUser } from "../utils/BackendClientAPI"; // Import the createUser function
+import { createUser } from "../utils/BackendClientAPI";
+import { LightModeContext } from "../utils/LightModeContext";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +21,9 @@ const SignUp = () => {
     postalCode: "",
     country: "",
   });
+
+  const lightModeContext = useContext(LightModeContext);
+  const lightMode = lightModeContext?.lightMode || "light";
 
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -68,7 +72,13 @@ const SignUp = () => {
   };
 
   return (
-    <div className="signup-container">
+    <div
+      className={`signup-container ${
+        lightMode === "dark"
+          ? "signup-container signup-container-dark"
+          : "signup-container signup-container-light"
+      }`}
+    >
       <div className="signup-box">
         <h2 className="signup-title">Sign Up</h2>
         <form onSubmit={handleSubmit}>

@@ -3,7 +3,12 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: #000000;
+    padding-top: 80px;
+  }
+
+  .signup-container-dark {
+    background-color: black;
+    color: black;
   }
   
   .signup-box {
