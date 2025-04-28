@@ -26,24 +26,36 @@ export interface NewUser {
   country: string;
 }
 
-// Helper function to handle requests without using AxiosError
+const getToken = () => localStorage.getItem('token');
+
+// Helper function to handle requests with token support
 const sendRequest = async <T,>(
   endpoint: string,
   method: "GET" | "POST" | "PUT" | "DELETE",
-  body?: Record<string, any> // Specify `Record<string, any>` instead of `object`
+  body?: Record<string, any>,
+  requireToken: boolean = false
 ): Promise<T> => {
+  const token = getToken();
+  if (requireToken && !token) {
+    throw new Error('No token found. Please log in or sign up first.');
+  }
+
   try {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
     const response = await axios({
       method,
       url: `${BASE_URL}${endpoint}`,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers,
       data: body,
     });
-    return response.data as T; // Assert the response data type to T
+    return response.data as T;
   } catch (error) {
-    // Catch generic errors and throw a message
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";
     throw new Error(errorMessage);
@@ -59,23 +71,34 @@ export const verifyOtp = async (phoneNumber: string, code: string) => {
 };
 
 export const createUser = async (user: NewUser) => {
-  return sendRequest<{ message: string; user: User }>(
+  const response = await sendRequest<{ message: string; user: User; token: string }>(
     "/api/users",
     "POST",
     user
   );
+  // Store the token after signup
+  localStorage.setItem('token', response.token);
+  return response;
 };
 
 export const login = async (
   email: string,
   password: string
-): Promise<{ message: string; user: User }> => {
-  return sendRequest<{ message: string; user: User }>("/api/login", "POST", {
+): Promise<{ message: string; user: User; token: string }> => {
+  const response = await sendRequest<{ message: string; user: User; token: string }>("/api/login", "POST", {
     email,
     password,
   });
+  // Store the token after login
+  localStorage.setItem('token', response.token);
+  return response;
 };
 
 export const getUserByEmail = async (email: string) => {
-  return sendRequest<User>(`/api/users/${encodeURIComponent(email)}`, "GET");
+  return sendRequest<User>(`/api/users/${encodeURIComponent(email)}`, "GET", undefined, true);
+};
+
+// Optional: Function to clear the token on logout
+export const logout = () => {
+  localStorage.removeItem('token');
 };
